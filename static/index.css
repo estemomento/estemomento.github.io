@@ -19,20 +19,38 @@ img {
   z-index: -10;
 }
 .alex {
-  animation: alex 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
   overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  color: #151515;
-  font-size: 108px;
+  color: #181818;
   z-index: -20;
+}
+.alex p {
+  font-size: 80px;
+  opacity: 0.1;
+  animation: alex 3s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+}
+.alex .l2 {
+  animation-delay: 0.5s;
+}
+.alex .l3 {
+  animation-delay: 1s;
+}
+.alex .l4 {
+  animation-delay: 1.5s;
+}
+.alex .l5 {
+  animation-delay: 2s;
+}
+.alex .l6 {
+  animation-delay: 2.5s;
 }
 @keyframes alex {
   from {
-    font-size: 1px;
+    font-size: 80px;
     opacity: 0.1;
   }
   to {
