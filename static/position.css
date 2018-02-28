@@ -1,0 +1,91 @@
+.alex p {
+  position: absolute;
+}
+#amh {
+  left: -50px;
+}
+#arb {
+  left: 450px;
+}
+#arm {
+  left: 850px;
+}
+#bul {
+  left: 1450px;
+}
+#eng, #geo, #gre {
+  top: 150px;
+}
+#eng {
+  left: 50px;
+}
+#geo {
+  left: 600px;
+}
+#gre {
+  left: 1400px;
+}
+#heb, #hin, #hun, #ind, #iri {
+  top: 300px;
+}
+#heb {
+  left: -50px;
+}
+#hin {
+  left: 450px;
+}
+#hun {
+  left: 800px;
+}
+#ind {
+  left: 1200px;
+}
+#iri {
+  left: 1650px;
+}
+#ita, #lat, #per, #por {
+  top: 450px;
+}
+#ita {
+  left: 50px;
+}
+#lat {
+  left: 650px;
+}
+#per {
+  left: 1250px;
+}
+#por {
+  left: 1700px;
+}
+#rom, #rus, #sco, #ser {
+  top: 600px;
+}
+#rom {
+  left: -50px;
+}
+#rus {
+  left: 500px;
+}
+#sco {
+  left: 1100px;
+}
+#ser {
+  left: 1450px;
+}
+#spa, #tha, #tur, #yid {
+  top: 750px;
+}
+#spa {
+  left: 50px;
+}
+#tha {
+  left: 550px;
+  transform: translateY(-10px);
+}
+#tur {
+  left: 1100px;
+}
+#yid {
+  left: 1550px;
+}
