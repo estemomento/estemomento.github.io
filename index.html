@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keyword" content="Aleko,Aleko Lau,estemomento">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Aleko Lau</title>
   <link rel="stylesheet" href="static/index.css">
@@ -11,11 +12,18 @@
 <body>
   <div class="wrapper">
     <h1>Aleko Lau</h1>
-    <h2>Web Developer</h2>
+    <h2 title="Click to view my resume">
+      <a id="resume" href="static/resume.pdf">Web Developer</a>
+    </h2>
     <h3>My Work</h3>
     <ul>
       <li><a href="http://trialect.alekolau.cn">Trialect</a></li>
+      <li><a href="http://ddh5.szu.edu.cn">SZU, 5th CCP Conference</a></li>
       <li><a href="http://alekolau.cn/d3/us-superstore/">D3.js - US Superstore Data</a></li>
+    </ul>
+    <h3>Contributed to</h3>
+    <ul>
+      <li><a href="http://sumian.com">SUMIAN</a></li>
     </ul>
     <footer>
       <span>Tg - <a href="https://t.me/alejandrolau">@alejandrolau</a></span>
@@ -49,5 +57,13 @@
       <p class="l6" id="yid">אלעקסאנדער</p>
   </div>
   <img src="static/guevara.png">
+  <!-- <script>
+    (() => {
+      document.getElementById('resume').addEventListener('mouseover',
+        () => document.getElementById('resume').innerText = 'View My Resume')
+      document.getElementById('resume').addEventListener('mouseout',
+        () => document.getElementById('resume').innerText = 'Web Developer')
+    })()
+  </script> -->
 </body>
 </html>
