@@ -59,7 +59,9 @@
   <img src="static/guevara.png">
   <script>
     for (let i = 19; i >= 0; --i) setTimeout(() => document.getElementById('resume').innerText = 'View resume of this Web Developer'.slice(i), 3000 - i * 100)
-    document.querySelectorAll('.alex p').forEach(v => v.style.color = `#${('00000'+ (Math.random()*0x1000000<<0).toString(16)).substr(-6)}`)
+    setInterval(() => {
+      document.querySelectorAll('.alex p').forEach(v => v.style.color = `#${('00000' + (Math.random() * 0x1000000 << 0).toString(16)).substr(-6)}`)
+    }, 1000)
   </script>
 </body>
 </html>
