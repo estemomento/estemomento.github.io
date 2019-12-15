@@ -60,7 +60,7 @@
   <script>
     for (let i = 19; i >= 0; --i) setTimeout(() => document.getElementById('resume').innerText = 'View resume of this Web Developer'.slice(i), 3000 - i * 100)
     setInterval(() => {
-      document.querySelectorAll('.alex p').forEach(v => v.style.color = `hsla(${Math.random() * 360}, ${Math.random()}, ${Math.random()}, 0.3)`)
+      document.querySelectorAll('.alex p').forEach(v => v.style.color = `hsla(${Math.random() * 360}, ${Math.random() * 100}%, ${Math.random() * 100}%, 0.3)`)
     }, 1000)
   </script>
 </body>
