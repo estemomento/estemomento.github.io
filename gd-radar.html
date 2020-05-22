@@ -44,7 +44,7 @@
         // 设置图片部分
         const jsNode = document.createElement('script');
         jsNode.setAttribute('type', 'text/javascript');
-        jsNode.setAttribute('src', `http://weather.121.com.cn/data_cache/szImages/radar/radar_png.js?random=${Math.random}&_=1590154646241`);
+        jsNode.setAttribute('src', `http://weather.121.com.cn/data_cache/szImages/radar/radar_png.js?random=${Math.random()}&_=1590154646241`);
         document.getElementsByTagName('body')[0].appendChild(jsNode);
         jsNode.onload = () => {
             SZ121_Radar = SZ121_Radar.map(src => {
