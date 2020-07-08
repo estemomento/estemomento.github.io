@@ -14,7 +14,7 @@
   left: 1450px;
 }
 #eng, #geo, #gre {
-  top: 150px;
+  top: 16.67vh;
 }
 #eng {
   left: 50px;
@@ -26,7 +26,7 @@
   left: 1400px;
 }
 #heb, #hin, #hun, #ind, #iri {
-  top: 300px;
+  top: 33.33vh;
 }
 #heb {
   left: -50px;
@@ -44,7 +44,7 @@
   left: 1650px;
 }
 #ita, #lat, #per, #por {
-  top: 450px;
+  top: 50vh;
 }
 #ita {
   left: 50px;
@@ -59,7 +59,7 @@
   left: 1700px;
 }
 #rom, #rus, #sco, #ser {
-  top: 600px;
+  top: 66.67vh;
 }
 #rom {
   left: -50px;
@@ -74,18 +74,39 @@
   left: 1450px;
 }
 #spa, #tha, #tur, #yid {
-  top: 750px;
+  top: 83.33vh;
 }
 #spa {
   left: 50px;
 }
 #tha {
   left: 550px;
-  transform: translateY(-10px);
 }
 #tur {
   left: 1100px;
 }
 #yid {
   left: 1550px;
+}
+@media (min-width: 1920px) {
+  .alex p {
+    transform: translateX(calc(50vw - 960px));
+  }
+}
+@media (max-height: 1080px) {
+  #eng, #geo, #gre {
+    top: 150px;
+  }
+  #heb, #hin, #hun, #ind, #iri {
+    top: 300px;
+  }
+  #ita, #lat, #per, #por {
+    top: 450px;
+  }
+  #rom, #rus, #sco, #ser {
+    top: 600px;
+  }
+  #spa, #tha, #tur, #yid {
+    top: 750px;
+  }
 }
