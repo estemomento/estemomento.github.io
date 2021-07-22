@@ -115,5 +115,10 @@
   <button id="play" onclick="play()" style="left: calc(50% - 32px);">▶️</button>
   <button onclick="next()" style="right: 20%;">⏩</button>
   <footer>Source: SZMB © 2020 Aleko</footer>
+  <script>
+    let vh = window.innerHeight * 0.01
+    console.log(vh);
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+  </script>
 </body>
 </html>
