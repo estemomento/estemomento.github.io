@@ -2,7 +2,7 @@
   "name": "GD Radar",
   "short_name": "GD Radar",
   "start_url": "./gd-radar", 
-  "scope": ".",
+  "scope": "./gd-radar",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#fff",
