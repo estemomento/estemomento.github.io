@@ -1,7 +1,7 @@
 {
   "name": "GD Radar",
   "short_name": "GD Radar",
-  "start_url": "./", 
+  "start_url": "./gd-radar", 
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait",
