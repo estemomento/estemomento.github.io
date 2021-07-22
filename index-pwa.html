@@ -2,99 +2,150 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Open Github PWA is a template for building PWA with github pages">
-
-    <!--Social meta-->
-    <meta property="og:title" content="Open Github PWA" />
-    <meta property="og:url" content="" />
-    <meta property="og:description"
-        content="This is a PWA boilerplate, with cache busting mechanism and preconfigured Github Pages deployment" />
-    <meta property="og:image" content="/assets/icons/icon.png" />
-    <meta property="og:type" content="website" />
-    <!---->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon.png">
-    <link rel="icon" type="image/png" href="assets/icons/icon.png" />
-
-
-    <meta name="theme-color" content="#640700">
-    <link rel="manifest" href="manifest.json">
-    <!---->
-
-    <!---->
-    <link rel="stylesheet" href="css/main.css">
-    <title>Open Github PWA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Radar map for Guangdong area">
+  
+  <!--Social meta-->
+  <meta property="og:title" content="Guangdong Radar" />
+  <meta property="og:url" content="" />
+  <meta property="og:description" content="Radar map for Guangdong area" />
+  <meta property="og:image" content="/assets/icons/icon.png" />
+  <meta property="og:type" content="website" />
+  <!---->
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon.png">
+  <link rel="icon" type="image/png" href="assets/icons/icon.png" />
+  
+  
+  <meta name="theme-color" content="#161e2b">
+  <link rel="manifest" href="manifest.json">
+  <!---->
+  
+  <!---->
+  <link rel="stylesheet" href="static/radar.css">
+  <title>Guangdong Radar</title>
+  <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=3IHBZ-7UIEG-HU4QU-IR6MZ-R7KR5-EVF2E"></script>
+  <script>
+    let currentPic = 16
+    let interval = null
+    var SZ121_Radar = []
+    window.onload = () => {
+      (() => {
+        // 设置图片部分
+        const jsNode = document.createElement('script');
+        jsNode.setAttribute('type', 'text/javascript');
+        jsNode.setAttribute('src', `http://weather.121.com.cn/data_cache/szImages/radar/radar_png.js?random=${Math.random()}&_=1590154646241`);
+        document.getElementsByTagName('body')[0].appendChild(jsNode);
+        jsNode.onload = () => {
+          SZ121_Radar = SZ121_Radar.map(src => {
+            const [prefix, no, timestamp] = src.split(/\/png|\.png\?m=/)
+            return { src, no: Number(no), timestamp }
+          })
+          setPic()
+        }
+        jsNode.onerror = () => {
+          document.getElementById('error').style.zIndex = '10'
+          document.getElementById('error').style.opacity = '0.6'
+          setTimeout(() => {
+            document.getElementById('error').style.zIndex = '-1'
+            document.getElementById('error').style.opacity = '0'
+          }, 3000);
+        }
+        function setPic() {
+          const { timestamp } = SZ121_Radar.find(v => v.no === currentPic)
+          groundOverlay.setOptions({
+            imageUrl: `http://weather.121.com.cn/data_cache/szImages/radar/png${currentPic}.png?m=${SZ121_Radar.find(v => v.no === currentPic).timestamp}`,
+          })
+          document.getElementById('info').innerText = `${timestamp.substr(0, 4)}/${timestamp.substr(4, 2)}/${timestamp.substr(6, 2)} ${timestamp.substr(8, 2)}:${timestamp.substr(10, 2)}:${timestamp.substr(12, 2)}`
+        }
+        // 初始化地图部分
+        const map = new qq.maps.Map(document.getElementById("map"), {
+          center: new qq.maps.LatLng(23, 113.5),
+          zoom: 8,
+          mapTypeControl: false,
+          backgroundColor: '#222',
+          mapStyleId: 'style1'
+        })
+        const groundOverlay = new qq.maps.GroundOverlay
+        groundOverlay.setBounds(new qq.maps.LatLngBounds(new qq.maps.LatLng(19.0149, 108.505), new qq.maps.LatLng(26.0419, 117.505)))
+        groundOverlay.setVisible(true)
+        groundOverlay.setOptions({ map, opacity: 0.4, clickable: false })
+        // 按钮事件部分
+        window.prev = () => {
+          currentPic === 2 ? currentPic = 16 : currentPic--
+          setPic()
+        }
+        window.next = () => {
+          currentPic === 16 ? currentPic = 2 : currentPic++
+          setPic()
+        }
+        window.play = () => {
+          if (!interval) {
+            document.getElementById('play').innerText = '⏸'
+            interval = setInterval(() => {
+              currentPic === 16 ? currentPic = 2 : currentPic++
+              setPic()
+            }, 1500)
+          } else {
+            document.getElementById('play').innerText = '▶️'
+            clearInterval(interval)
+            interval = null
+          }
+        }
+      })()
+    }
+  </script>
 </head>
 
 <body>
-    <div id="appContainer" class="container">
-        <header>
-            <h1> Open Github PWA </h1>
-            <div id="version">
-
-            </div>
-        </header>
-        <div class="body">
-
-            <p>
-                This is a PWA , deployed using Github Pages (Free and Awesome) with cache bust mechanism.
-            </p>
-            <p>
-                Build your own pwa in 2 mins, follow the bellow steps
-            </p>
-            <ol>
-                <li>Fork this project on github</li>
-                <li>Enable github pages option</li>
-                <li>Done!! access your github pages url</li>
-            </ol>
-            <p>
-                Check <a href="https://github.com/PranoySarkar/OpenPWA">here </a>  for more information 
-            </p>
-            <p>
-                At the beginning it might take some time to deploy, if it shows 404 wait for 5 mins.
-            </p>
-            <p>
-                If you dont see the download button bollow then delete the previous install.
-            </p>
-            <p>
-                <a href="https://pranoysarkar.github.io/OpenPWA/">Open in APP </a>
-            </p>
-
-            <div class="controllers">
-                <div class="downloadPrompt">
-                    <div class="promptControllers">
-                        <button class="downloadButton">Download </button>
-                    </div>
-                </div>
-            </div>
-            <footer>
-            </footer>
-
-            <div class="hiddenElements">
-            </div>
-
-
+  <div id="appContainer" class="container">
+    <header>
+      <div id="version">
+      </div>
+    </header>
+    <div class="body">
+      <div class="controllers">
+        <div class="downloadPrompt">
+          <div class="promptControllers">
+            <button class="downloadButton">Download</button>
+          </div>
         </div>
+      </div>
+      <footer>
+      </footer>
+      <div class="hiddenElements">
+      </div>
     </div>
+  </div>
+  <div class="bigFullScreen">
+  </div>
 
-    <div class="bigFullScreen">
-
-    </div>
-    <script type="text/javascript">
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register(`service-worker.js`)
-                .then(function () {
-                    console.log("Service Worker Registered");
-                });
-        }
-    </script>
-    <script defer src="js/settings.js"></script>
-    <script defer src="js/install-handler.js"></script>
-    <script defer src="js/main.js"></script>
+  <div id="map"></div>
+  <h1>Guangdong Radar</h1>
+  <div id="error">加载气象台数据失败，请刷新重试</div>
+  <p id="info"></p>
+  <button onclick="prev()" style="left: 20%;">⏪</button>
+  <button id="play" onclick="play()" style="left: calc(50% - 32px);">▶️</button>
+  <button onclick="next()" style="right: 20%;">⏩</button>
+  <footer>Source: SZMB © 2021 Aleko</footer>
+  <script>
+    let vh = window.innerHeight * 0.01
+    console.log(vh);
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+  </script>
+  <script type="text/javascript">
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+      .register(`service-worker.js`)
+      .then(function () {
+        console.log("Service Worker Registered");
+      });
+    }
+  </script>
+  <script defer src="js/settings.js"></script>
+  <script defer src="js/install-handler.js"></script>
+  <script defer src="js/main.js"></script>
 </body>
-
 </html>

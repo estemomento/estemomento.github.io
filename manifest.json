@@ -1,12 +1,12 @@
 {
-  "name": "Open PWA",
-  "short_name": "Open PWA",
+  "name": "GD Radar",
+  "short_name": "GD Radar",
   "start_url": "./", 
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#fff",
-  "theme_color": "#640700",
+  "theme_color": "#161e2b",
   "newBranch":"true",
   "icons": [
     {

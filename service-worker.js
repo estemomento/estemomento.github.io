@@ -1,12 +1,12 @@
-let cacheName = "OpenGithubPWA";// 👈 any unique name
+let cacheName = "GuangdongRadar";// 👈 any unique name
 
 let filesToCache = [
-  "/OpenPWA/", // 👈 your repository name , both slash are important
+  "/estemomento.github.io/", // 👈 your repository name , both slash are important
   "service-worker.js",
   "js/main.js",
   "js/install-handler.js",
   "js/settings.js",
-  "css/main.css",
+  "static/radar.css",
   "assets/icons/icon.png",
   "manifest.json"
   // add your assets here 
