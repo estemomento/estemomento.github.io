@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Styled Latin Converter</title>
+  <style>
+    * { font-size: 20px; }
+    h1 { font-size: 32px; }
+    textarea { width: 400px; height: 320px; }
+    div { display: flex; }
+    button { margin-left: 12px; }
+    #result { font-size: 28px; }
+  </style>
+</head>
+<body>
+  <h1>Styled Latin Converter</h1>
+  <textarea id="original"></textarea>
+  <div>
+    <select name="type" id="type">
+      <option value="1d400">𝐁𝐨𝐥𝐝</option>
+      <option value="1d434">𝐼𝑡𝑎𝑙𝑖𝑐</option>
+      <option value="1d468">𝑩𝒐𝒍𝒅 𝑰𝒕𝒂𝒍𝒊𝒄</option>
+      <option value="1d5a0">𝖲𝖺𝗇𝗌-𝖲𝖾𝗋𝗂𝖿</option>
+      <option value="1d5d4">𝗦𝗮𝗻𝘀-𝗦𝗲𝗿𝗶𝗳 𝗕𝗼𝗹𝗱</option>
+      <option value="1d608">𝘚𝘢𝘯𝘴-𝘚𝘦𝘳𝘪𝘧 𝘐𝘵𝘢𝘭𝘪𝘤</option>
+      <option value="1d63c">𝙎𝙖𝙣𝙨-𝙎𝙚𝙧𝙞𝙛 𝘽𝙤𝙡𝙙 𝙄𝙩𝙖𝙡𝙞𝙘</option>
+      <option value="1d49c">𝒮𝒸𝓇𝒾𝓅𝓉</option>
+      <option value="1d4d0">𝓑𝓸𝓵𝓭 𝓢𝓬𝓻𝓲𝓹𝓽</option>
+      <option value="1d504">𝔉𝔯𝔞𝔨𝔱𝔲𝔯</option>
+      <option value="1d538">𝔻𝕠𝕦𝕓𝕝𝕖-𝕊𝕥𝕣𝕦𝕔𝕜</option>
+      <option value="1d56c">𝕭𝖔𝖑𝖉 𝕱𝖗𝖆𝖐𝖙𝖚𝖗</option>
+      <option value="1d670">𝙼𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎</option>
+    </select>
+    <button id="convert">Convert</button>
+  </div>
+  <p id="result"></p>
+  <footer>© 2021 Aleko Lau</footer>
+  <script>
+    const specialMap = {
+      '1d455': 'ℎ',
+      '1d49d': 'ℬ',
+      '1d4a0': 'ℰ',
+      '1d4a1': 'ℱ',
+      '1d4a3': 'ℋ',
+      '1d4a4': 'ℐ',
+      '1d4a7': 'ℒ',
+      '1d4a8': 'ℳ',
+      '1d4ad': 'ℛ',
+      '1d4ba': 'ℯ',
+      '1d4bc': 'ℊ',
+      '1d4c4': 'ℴ',
+      '1d506': 'ℭ',
+      '1d50b': 'ℌ',
+      '1d50c': 'ℑ',
+      '1d515': 'ℜ',
+      '1d51d': 'ℨ',
+      '1d53a': 'ℂ',
+      '1d53f': 'ℍ',
+      '1d545': 'ℕ',
+      '1d547': 'ℙ',
+      '1d548': 'ℚ',
+      '1d549': 'ℝ',
+      '1d551': 'ℤ',
+    }
+    document.getElementById('original').oninput = e => {
+      console.log(e.target.value)
+      sessionStorage.setItem('StyledLatinOriginalText', e.target.value)
+    }
+    document.getElementById('convert').onclick = () => { // convert
+      const original = sessionStorage.getItem('StyledLatinOriginalText')
+      const type = document.getElementById('type').value
+      document.getElementById('result').innerText = [...original].map(ch => {
+        if (ch.codePointAt() > 122 || ch.codePointAt() < 65) return ch
+        let mapped
+        if (ch.codePointAt() <= 90) mapped = ch.codePointAt() - 65 + parseInt(type, 16)
+        else mapped = ch.codePointAt() - 71 + parseInt(type, 16)
+        return specialMap[mapped.toString(16)] || String.fromCodePoint(mapped)
+      }).join('')
+    }
+  </script>
+</body>
+</html>
