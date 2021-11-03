@@ -2,72 +2,198 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keyword" content="Aleko,Aleko Lau,estemomento">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Aleko Lau</title>
-  <link rel="stylesheet" href="static/index.css">
-  <link rel="stylesheet" href="static/position.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <title>- alex lau -</title>
+  <style>
+    * {
+      font-family: monospace;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-size: 16px;
+      color: #fff;
+    }
+    body {
+      display: flex;
+      overflow: hidden;
+      background: #000;
+    }
+    main {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(25vh, 1fr));
+      width: 100vh;
+      height: 100vh;
+    }
+    main > section {
+      background-size: cover;
+      transition: 500ms filter ease-in-out;
+      filter: brightness(0.3);
+    }
+    main > section::before {
+      content: "";
+      padding-bottom: 100%;
+      display: block;
+    }
+    main > section:hover {
+      z-index: 1000;
+      filter: brightness(1);
+    }
+    main > section:hover:after {
+      position: absolute;
+      content: "";
+      top: -10px;
+      left: -10px;
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 10px solid #fff;
+    }
+    aside {
+      display: flex;
+      flex-direction: column;
+      padding: 48px;
+      width: 400px;
+    }
+    h1 {
+      font-size: 48px;
+    }
+    h2 {
+      font-size: 36px;
+    }
+    h3 {
+      font-size: 24px;
+    }
+    h4 {
+      font-size: 20px;
+    }
+    aside > div {
+      margin-top: 16px;
+    }
+    p {
+      margin-top: 4px;
+    }
+    p:first-of-type {
+      margin-top: auto;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+    a:hover {
+      border-bottom: 2px solid #fff;
+    }
+  </style>
 </head>
 <body>
-  <div class="wrapper">
-    <h1>Aleko Lau</h1>
-    <h2 title="Click to view my resume">
-      <a id="resume" href="static/resume.pdf">Web Developer</a>
-    </h2>
-    <!-- <h3>My Work</h3>
-    <ul>
-      <li><a href="http://trialect.alekolau.cn">Trialect</a></li>
-      <li><a href="http://ddh5.szu.edu.cn">SZU, 5th CCP Conference</a></li>
-      <li><a href="http://alekolau.cn/d3/us-superstore/">D3.js - US Superstore Data</a></li>
-    </ul> -->
-    <h3>Contributed to</h3>
-    <ul>
-      <li><a href="http://sumian.com">SUMIAN</a></li>
-      <li><a href="https://page.e.qq.com/">Xijing Landing page</a></li>
-      <li><a href="https://paper.idea.edu.cn/">ReadPaper</a></li>
-      <li><a href="https://test.b186.com/">HMKG</a></li>
-    </ul>
-    <footer>
-      <span>Tg - <a href="https://t.me/alejandrolau">@alejandrolau</a></span>
-      <span><a href="mailto:alejandrolau@msn.cn">alejandrolau@msn.cn</a></span>
-    </footer>
-  </div>
-  <div class="alex">
-      <p class="l1" id="amh">እስክንድር</p>
-      <p class="l1" id="arb">الكسندر</p>
-      <p class="l1" id="arm">Ալեքսանդր</p>
-      <p class="l1" id="bul">Александър</p>
-      <p class="l2" id="eng">Alexander</p>
-      <p class="l2" id="geo">ალექსანდრე</p>
-      <p class="l2" id="gre">Αλέξανδρος</p>
-      <p class="l3" id="heb">אלכסנדר</p>
-      <p class="l3" id="hin">सिकंदर</p>
-      <p class="l3" id="hun">Sándor</p>
-      <p class="l3" id="ind">Iskandar</p>
-      <p class="l3" id="iri">Alastar</p>
-      <p class="l4" id="ita">Alessandro</p>
-      <p class="l4" id="lat">Aleksandrs</p>
-      <p class="l4" id="per">الکساندر</p>
-      <p class="l4" id="por">Alexandre</p>
-      <p class="l5" id="rom">Alexandru</p>
-      <p class="l5" id="rus">Александр</p>
-      <p class="l5" id="sco">Alister</p>
-      <p class="l5" id="ser">Александер</p>
-      <p class="l6" id="spa">Alejandro</p>
-      <p class="l6" id="tha">อเล็กซานเด</p>
-      <p class="l6" id="tur">İskender</p>
-      <p class="l6" id="yid">אלעקסאנדער</p>
-  </div>
-  <img src="static/guevara.png">
+  <main></main>
+  <aside>
+    <h1>alex lau</h1>
+    <h3>developer</h3>
+    <div class="intro">hover on albums for more details</div>
+    <p><a href="static/cv.pdf">cv</a></p>
+    <p><a href="https://t.me/alejandrolau">@alejandrolau</a></p>
+    <p><a href="mailto:alejandrolau@msn.cn">alejandrolau#msn.cn</a></p>
+  </aside>
   <script>
-    for (let i = 19; i >= 0; --i) setTimeout(() => {
-      document.getElementById('resume').innerText = 'Resume of this Web Developer'.slice(i)
-      document.querySelector('img').style.filter = `brightness(${2.8 - i / 7})`
-    }, 3000 - i * 100)
-    setInterval(() => {
-      document.querySelectorAll('.alex p').forEach(v => v.style.color = `hsla(${Math.random() * 360}, ${Math.random() * 100}%, ${Math.random() * 100}%, 0.3)`)
-    }, 1000)
+    const imgSrc = [
+      {
+        src: 'https://img.discogs.com/CNFM-y8UYCLHT-t5KtNfZWo7EX8=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-5412368-1392722902-1304.jpeg.jpg',
+        title: 'Esto es Estopa',
+        artist: 'Estopa',
+        year: 2014,
+        comment: 'Estopa performed this unplugged live with their greatest Spanish folk-rock songs. It\'s just like an Iberian breeze that brings you back to Barcelona.',
+      },
+      {
+        src: 'https://img.discogs.com/4VH8WsLDEQSxN4qzIuMqZNlCTZA=/fit-in/460x460/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-8024229-1453694465-1704.jpeg.jpg',
+        title: 'EV: En Vivo',
+        artist: 'Enanitos Verdes',
+        year: 2004,
+        comment: '',
+      },
+      {
+        src: 'https://img.discogs.com/4RxO701-tEFRfDkYs2HFFp8RSHc=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-11225334-1512238691-9997.jpeg.jpg',
+        title: 'Odisea',
+        artist: 'Ozuna',
+        year: 2017,
+        comment: '',
+      },
+      {
+        src: 'https://img.discogs.com/cZChCy4Hmo-FgisM1Mhc4u_tjdA=/fit-in/600x596/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-3530553-1334078658.jpeg.jpg',
+        title: 'Zuno Keisatsu 1',
+        artist: 'Zuno Keisatsu',
+        year: 1975,
+        comment: 'Rebel, romantic and revolutionary. Zuno Keisatsu somehow reminds us of that red era when all proletariats are really united, where Japan was not absent.',
+      },
+      {
+        src: 'https://img.discogs.com/3dRTO9EfnFdSgXZwUW39JWZaAk8=/fit-in/600x590/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-6626610-1607107548-2571.jpeg.jpg',
+        title: 'Cover 70\'s',
+        artist: 'Jun Shibata',
+        year: 2012,
+        comment: '',
+      },
+      {
+        src: 'https://img.discogs.com/JtEtZGWshLw-pB2hkJV5syZU4Tc=/fit-in/600x519/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-7511238-1442990950-2328.jpeg.jpg',
+        title: '45',
+        artist: 'Kino',
+        year: 1982,
+        comment: 'If you haven\'t listened to Viktor Tsoy, you don\'t know Russian rock; and if you haven\'t listened to 45, you don\'t know Tsoy. Now it\'s time to get to know him.',
+      },
+      {
+        src: 'https://img.discogs.com/hf0GBbmcBEqzvyKD1l6yojInQjQ=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-8848316-1470035351-6385.jpeg.jpg',
+        title: 'Touming Magazine Forever',
+        artist: 'Touming Magazine',
+        year: 2012,
+        comment: '',
+      },
+      {
+        src: 'https://img.discogs.com/fCgd1rGQuzeZzTfAfL3oTGpPKXk=/fit-in/600x616/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-6275547-1415375736-3549.jpeg.jpg',
+        title: 'Omnipotent Youth Society',
+        artist: 'Omnipotent Youth Society',
+        year: 2010,
+        comment: '',
+      },
+      {
+        src: 'https://img.discogs.com/-2ni-h17QEXzZexxrCtwOwNCcWM=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-3770987-1343740689-6721.jpeg.jpg',
+        title: 'Ao Vivo',
+        artist: 'Paula Fernandes',
+        year: 2010,
+        comment: '',
+      },
+      
+    ];
+    const main = document.querySelector('main');
+    function showIntro(info) {
+      if (!info) {
+        $('.intro').text('hover on albums for more details');
+        return;
+      }
+      const { title, artist, year, comment } = info;
+      $('.intro').empty();
+      const spans = `<strong>${title.split('').join('</strong><strong>')}</strong>
+      <br/>
+      <span>${`${artist} (${year})`.split('').join('</span><span>')}</span>
+      <br/>
+      <br/>
+      <span>${comment.split('').join('</span><span>')}</span>`;
+      $(spans).hide().appendTo('.intro').each(function (i) {
+          $(this).delay(100 * i).css({
+              display: 'inline',
+              opacity: 0
+          }).animate({
+              opacity: 1
+          }, 100);
+      });
+    };
+
+    imgSrc.forEach((info) => {
+      const section = document.createElement('section');
+      section.style.backgroundImage = `url('${info.src}')`;
+      section.onmouseover = () => showIntro(info);
+      section.onmouseout = () => showIntro();
+      main.appendChild(section);
+    })
   </script>
 </body>
 </html>
