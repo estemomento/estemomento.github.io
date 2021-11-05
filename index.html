@@ -7,13 +7,29 @@
   <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
   <title>- alex lau -</title>
   <style>
+    @keyframes scroller {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-50%);
+      }
+    }
     * {
       font-family: monospace;
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-size: 16px;
+      font-size: 1.2rem;
       color: #fff;
+    }
+    html {
+      font-size: 1vw;
+    }
+    @media (max-width: 1200px) {
+      html {
+        font-size: 12px;
+      }
     }
     body {
       display: flex;
@@ -24,7 +40,10 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(25vh, 1fr));
       width: 100vh;
-      height: 100vh;
+      animation: scroller linear 20s infinite;
+    }
+    main:hover {
+      animation-play-state: paused;
     }
     main > section {
       background-size: cover;
@@ -43,36 +62,42 @@
     main > section:hover:after {
       position: absolute;
       content: "";
-      top: -10px;
-      left: -10px;
+      top: -0.8rem;
+      left: -0.8rem;
       width: 100%;
       height: 100%;
       display: block;
-      border: 10px solid #fff;
+      border: 0.8rem solid #fff;
     }
     aside {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 48px;
-      width: 400px;
+      padding: 4rem;
+      min-width: 400px;
+      max-width: calc(100vw - 100vh);
+      height: 100vh;
     }
     h1 {
-      font-size: 48px;
+      font-size: 4rem;
     }
     h2 {
-      font-size: 36px;
+      font-size: 3rem;
     }
     h3 {
-      font-size: 24px;
+      font-size: 2rem;
     }
     h4 {
-      font-size: 20px;
+      font-size: 1.6rem;
     }
     aside > div {
-      margin-top: 16px;
+      margin-top: 1.4rem;
     }
     p {
-      margin-top: 4px;
+      margin-top: 0.2rem;
+    }
+    p.right {
+      text-align: right;
     }
     p:first-of-type {
       margin-top: auto;
@@ -84,17 +109,37 @@
     a:hover {
       border-bottom: 2px solid #fff;
     }
+
+    @media (max-width: 480px) {
+      main {
+        width: 100vw;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      aside {
+        position: absolute;
+        width: 100vw;
+        min-width: unset;
+        max-width: unset;
+      }
+      .intro {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
   <main></main>
   <aside>
     <h1>alex lau</h1>
-    <h3>developer</h3>
+    <h3>- code</h3>
+    <h3>- music</h3>
+    <h3>- linguistics</h3>
     <div class="intro">hover on albums for more details</div>
     <p><a href="static/cv.pdf">cv</a></p>
-    <p><a href="https://t.me/alejandrolau">@alejandrolau</a></p>
-    <p><a href="mailto:alejandrolau@msn.cn">alejandrolau#msn.cn</a></p>
+    <p><a href="gd-radar.html">gd-radar</a></p>
+    <p><a href="styled-latin.html">styled-latin</a></p>
+    <p class="right"><a href="https://t.me/alejandrolau">@alejandrolau</a></p>
+    <p class="right"><a href="mailto:alejandrolau@msn.cn">alejandrolau#msn.cn</a></p>
   </aside>
   <script>
     const imgSrc = [
@@ -161,7 +206,55 @@
         year: 2010,
         comment: '',
       },
-      
+      {
+        src: 'https://ia803001.us.archive.org/26/items/mbid-29ddbc52-fd8a-4c77-b83b-def0f86ff7a2/mbid-29ddbc52-fd8a-4c77-b83b-def0f86ff7a2-22849627352.png',
+        title: 'That Year',
+        artist: 'Xu Wei',
+        year: 2000,
+        comment: 'Xu suffered from melancholia at the time he recorded this album. All the aggressive riffs and shout-outs are like crashing the wall in his brain.',
+      },
+      {
+        src: './assets/poems-of-life.jpg',
+        title: 'Poems of Life - Unplugged',
+        artist: 'Gao Qi & Overload',
+        year: 2006,
+        comment: 'First and maybe the best unplugged rock live show of China. Laopaors (老炮儿) never die, they simply fade away.',
+      },
+      {
+        src: './assets/because-i-was-too-nervous-at-that-time.jpg',
+        title: 'Because I Was Too Nervous At That Time',
+        artist: 'My Little Airport',
+        year: 2005,
+        comment: 'Youngsters in a densely populated city have their dreams and troubles. In this album MLA not only records the daily lives of theirs, but also the secret things in their mind.',
+      },
+      {
+        src: './assets/meteora.jpg',
+        title: 'Meteora',
+        artist: 'Linkin Park',
+        year: 2003,
+        comment: 'An epochal band that changes metal, rock and hip-hop at the same time. Linkin Park is the best band in the pre-20s in my opinion.',
+      },
+      {
+        src: './assets/summer-fever.jpg',
+        title: 'Summer - Fever',
+        artist: 'Sodagreen',
+        year: 2003,
+        comment: '',
+      },
+      {
+        src: './assets/desde-siempre.jpg',
+        title: 'Desde Siempre',
+        artist: 'Chayanne',
+        year: 2003,
+        comment: '',
+      },
+      {
+        src: './assets/meteora.jpg',
+        title: 'Meteora',
+        artist: 'Linkin Park',
+        year: 2003,
+        comment: 'An epochal band that changes metal, rock and hip-hop at the same time. Linkin Park is the best band in the pre-20s in my opinion.',
+      },
     ];
     const main = document.querySelector('main');
     function showIntro(info) {
@@ -187,7 +280,7 @@
       });
     };
 
-    imgSrc.forEach((info) => {
+    [...imgSrc, ...imgSrc].forEach((info) => {
       const section = document.createElement('section');
       section.style.backgroundImage = `url('${info.src}')`;
       section.onmouseover = () => showIntro(info);
