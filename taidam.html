@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tai Dam Transliterator</title>
+  <style>
+    * { font-size: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; }
+    h1 { font-size: 32px; }
+    textarea { width: 90vw; height: 320px; font-size: 24px; }
+    div { display: flex; }
+    #result { width: 90vw; font-size: 24px; }
+  </style>
+</head>
+<body>
+  <h1>Tai Dam Transliterator</h1>
+  <textarea id="original"></textarea>
+  <div>
+    <button id="convert">Convert</button>
+  </div>
+  <p id="result"></p>
+  <footer>© 2022 Aleko Lau</footer>
+  <script>
+    const map = {
+      ꪀ: 'k̝',
+      ꪁ: 'k',
+      ꪂ: 'k̝ʰ',
+      ꪃ: 'kʰ',
+      ꪄ: 'x̝',
+      ꪅ: 'x',
+      ꪆ: 'g̝',
+      ꪇ: 'g',
+      ꪈ: 'ŋ̝',
+      ꪉ: 'ŋ',
+      ꪊ: 'ʨ̝',
+      ꪋ: 'ʨ',
+      ꪌ: 'ʨ̝ʰ',
+      ꪍ: 'ʨʰ',
+      ꪎ: 's̝',
+      ꪏ: 's',
+      ꪐ: 'ɲ̝',
+      ꪑ: 'ɲ',
+      ꪒ: 'd̝',
+      ꪓ: 'd',
+      ꪔ: 't̝',
+      ꪕ: 't',
+      ꪖ: 't̝ʰ',
+      ꪗ: 'tʰ',
+      ꪘ: 'n̝',
+      ꪙ: 'n',
+      ꪚ: 'b̝',
+      ꪛ: 'b',
+      ꪜ: 'p̝',
+      ꪝ: 'p',
+      ꪞ: 'p̝ʰ',
+      ꪟ: 'pʰ',
+      ꪠ: 'f̝',
+      ꪡ: 'f',
+      ꪢ: 'm̝',
+      ꪣ: 'm',
+      ꪤ: 'j̝',
+      ꪥ: 'j',
+      ꪦ: 'r̝',
+      ꪧ: 'r',
+      ꪨ: 'l̝',
+      ꪩ: 'l',
+      ꪪ: 'w̝',
+      ꪫ: 'w',
+      ꪬ: 'h̝',
+      ꪭ: 'h',
+      ꪮ: 'ʔ̝',
+      ꪯ: 'ʔ',
+      'ꪰ': 'a',
+      ꪱ: 'aː',
+      'ꪲ': 'i',
+      'ꪳ': 'ɨ',
+      'ꪴ': 'u',
+      ꪵ: 'ɛ',
+      ꪶ: 'o',
+      'ꪷ': 'ɔ',
+      'ꪸ': 'iᵊ',
+      ꪹ: 'ɨᵊ',
+      ꪺ: 'uᵊ',
+      ꪻ: 'əw',
+      ꪼ: 'aj',
+      ꪽ: 'an',
+      'ꪾ': 'am',
+      '꪿': '¹',
+      '꫁': '²',
+      ꫛ: 'kon⁵⁵'
+    }
+    const finalMap = {
+      'd̝': 't',
+      'k̝': 'k',
+      'b̝': 'p'
+    }
+    document.getElementById('original').oninput = e => {
+      sessionStorage.setItem('TaiDamOriginalText', e.target.value)
+    }
+    document.getElementById('convert').onclick = () => { // convert
+      const lines = sessionStorage.getItem('TaiDamOriginalText').split('\n').map(line => {
+        const words = line.split(' ')
+        const transliterated = words.map(raw => {
+          let isTai = false
+          const word = [...raw].map(ch => {
+            if (map[ch]) {
+              isTai = !['kon⁵⁵'].includes(map[ch])
+              return map[ch]
+            }
+            return ch
+          })
+          let ret = word.map((ch, i) => {
+            if (ch === 'ɨᵊ') {
+              if (word.slice(i + 2).includes('iᵊ')) {
+                ch = word[i + 1] + 'e'
+                word[i + 1] = ''
+                word[word.indexOf('iᵊ')] = ''
+              } else if (word.slice(i + 2).includes('ɔ')) {
+                ch = word[i + 1] + 'ə'
+                word[i + 1] = ''
+                word[word.indexOf('ɔ')] = ''
+              } else if (word.slice(i + 2).includes('aː')) {
+                ch = word[i + 1] + 'aw'
+                word[i + 1] = ''
+                word[word.indexOf('aː')] = ''
+              } else {
+                ch = word[i + 1] + ch
+                word[i + 1] = ''
+              }
+            }
+            if (ch === 'b̝' && word[i + 1] === 'am') {
+              ch = 'ap'
+              word[i + 1] = ''
+            }
+            if (['ɛ', 'o', 'əw', 'aj'].includes(ch)) {
+              ch = word[i + 1] + ch
+              word[i + 1] = ''
+            }
+            return ch
+          })
+          if (!isTai) return ret.join('')
+          if (ret[0].includes('̝')) {
+            const filtered = [...ret[0]]
+            filtered.splice(1, 1)
+            ret[0] = filtered.join('')
+            if (ret.includes('¹')) ret = [...ret.filter(v => v !== '¹'), '⁴⁴']
+            else if (ret.includes('²')) ret = [...ret.filter(v => v !== '²'), '³¹']
+            else ret.push('⁵⁵')
+          } else {
+            if (ret.includes('¹')) ret = [...ret.filter(v => v !== '¹'), '⁴⁵']
+            else if (ret.includes('²')) ret = [...ret.filter(v => v !== '²'), '²¹']
+            else ret.push('²²')
+          }
+          const tone = ret.pop()
+          let final = ''
+          return ret.reduce((acc, val, idx) => {
+            if (val === 'ʔ̝') return acc + 'ɔ'// it's vowel
+            if (['d̝', 'k̝', 'b̝', 'ŋ', 'n', 'm'].includes(val) && idx) {
+              final = finalMap[val] || val
+              return acc
+            }
+            return acc + val
+          }) + final + tone
+        })
+        return transliterated.join(' ')
+      })
+      document.getElementById('result').innerText = lines.join('\n')
+    }
+  </script>
+</body>
+</html>
