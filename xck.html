@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+  <link rel="icon" href="#">
+  <title>通信大数据行程卡</title>
+  <link href="xck/app.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="xck/result.css">
+  <script src="xck/moment.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="result-wrap">
+      <div class="bg-pic1 greenBg">
+        <div class="banner-img-holder imgholder2">
+          
+        </div>
+        <div class="div-main">
+          <div class="top green">
+            
+          </div>
+          <p class="hidden-tel"></p>
+          <p class="update">更新于：</p>
+          <div class="info">
+            <div class="img-holder green-bg">
+              <img src="xck/gif_green.gif" alt="" class="qr-img">
+            </div>
+          </div>
+          <div class="bott">
+            <span class="title">您于前14天内到达或途经：<b class="addr"></b></span>
+          </div>
+        </div>
+        <!---->
+        <!---->
+        <div class="tip">结果包含您在前14天内到访的国家(地区)与停留4小时以上的国内城市<br>
+          <br> 色卡仅对到访地作提醒，不关联健康状况 </div>
+          <div class="foot-box">
+            <footer data-v-0a8392f0="" class="footer-comp">
+              <div data-v-0a8392f0="">
+                <p data-v-0a8392f0="" style="font-size: 0.24rem; color: white;">————————— 本服务联合提供 —————————</p>
+              </div>
+              <div data-v-0a8392f0="" class="caict">
+                <img data-v-0a8392f0="" src="xck/222.png" alt="caict">
+              </div>
+              <div data-v-0a8392f0="" style="padding-top: 0.15rem;">
+                <a data-v-0a8392f0="" style="font-size: 0.24rem; color: white;">客服热线：</a>
+                <a data-v-0a8392f0="" href="tel:10000" style="font-size: 0.24rem; color: white;">10000</a> <a data-v-0a8392f0="" style="font-size: 0.24rem; color: white;">/</a>
+                <a data-v-0a8392f0="" href="tel:10086" style="font-size: 0.24rem; color: white;"> 10086</a>
+                <a data-v-0a8392f0="" style="font-size: 0.24rem; color: white;"> / </a> <a data-v-0a8392f0="" href="tel:10010" style="font-size: 0.24rem; color: white;">10010</a>
+              </div>
+            </footer>
+          </div>
+        </div>
+        <div style="display: flex; background: rgb(248, 248, 248); width: 100%;">
+          <div style="color: rgb(68, 68, 68); text-align: left; padding-top: 0.1rem; font-size: 0.24rem; padding-left: 0.55rem; padding-bottom: 0.1rem; display: flex; width: 100%;">
+            <div style="margin-left: 0.2rem; width: 39%;">
+              <div style="font-weight: bold; margin-bottom: 0.12rem; margin-top: 0.2rem;">一证通查来了！</div>
+              <div style="font-size: 0.2rem;">立即点击进入</div>
+            </div>
+            <div style="padding: 0.2rem; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); border-radius: 0.1rem;">
+              <div style="font-weight: bold; margin-bottom: 0.12rem;"> 全国移动电话卡“⼀证通查” </div>
+              <div style="font-size: 0.2rem; text-align: center;"> 防范诈骗，保护你我 </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // set rem font-size
+      document.documentElement.style.fontSize = document.documentElement.clientWidth / 9 + 'px'
+      // set tel, addr and date
+      const params = new URLSearchParams(location.search);
+      document.querySelector('.hidden-tel').innerHTML = `${params.get('tel').slice(0, 3)}****${params.get('tel').slice(7, 11)}的动态行程卡`
+      document.querySelector('.addr').innerHTML = params.get('addr')
+      document.querySelector('.update').innerHTML += moment().format('YYYY.MM.DD HH:MM:ss')
+    </script>
+  </body>
+  </html>
