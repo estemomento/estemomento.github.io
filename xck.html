@@ -73,7 +73,7 @@
       const params = new URLSearchParams(location.search);
       document.querySelector('.hidden-tel').innerHTML = `${params.get('tel').slice(0, 3)}****${params.get('tel').slice(7, 11)}的动态行程卡`
       document.querySelector('.addr').innerHTML = params.get('addr')
-      document.querySelector('.update').innerHTML += moment().format('YYYY.MM.DD HH:MM:ss')
+      document.querySelector('.update').innerHTML += moment().format('YYYY.MM.DD HH:mm:ss')
     </script>
   </body>
   </html>
