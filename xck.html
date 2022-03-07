@@ -21,7 +21,7 @@
             
           </div>
           <p class="hidden-tel"></p>
-          <p class="update">更新于：</p>
+          <p class="update"></p>
           <div class="info">
             <div class="img-holder green-bg">
               <img src="xck/gif_green.gif" alt="" class="qr-img">
@@ -67,13 +67,25 @@
       </div>
     </div>
     <script>
+      const setInfo = (tel, addr) => {
+        if (tel) document.querySelector('.hidden-tel').innerHTML = `${tel.slice(0, 3)}****${tel.slice(7, 11)}的动态行程卡`
+        if (addr) document.querySelector('.addr').innerHTML = addr
+        document.querySelector('.update').innerHTML = `更新于：${moment().format('YYYY.MM.DD HH:mm:ss')}`
+      }
       // set rem font-size
       document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px'
       // set tel, addr and date
       const params = new URLSearchParams(location.search);
-      document.querySelector('.hidden-tel').innerHTML = `${params.get('tel').slice(0, 3)}****${params.get('tel').slice(7, 11)}的动态行程卡`
-      document.querySelector('.addr').innerHTML = params.get('addr')
-      document.querySelector('.update').innerHTML += moment().format('YYYY.MM.DD HH:mm:ss')
+      setInfo(params.get('tel'), params.get('addr'))
+      // dynamic tel & addr
+      let clickCount = 0
+      document.querySelector('.info').addEventListener('click', () => {
+        clickCount++
+        if (clickCount === 8) {
+          setInfo(prompt('tel'), prompt('addr'))
+          clickCount = 0
+        }
+      })
     </script>
   </body>
   </html>
