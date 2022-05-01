@@ -130,11 +130,16 @@
 <body>
   <main></main>
   <aside>
+    <audio muted></audio>
     <h1>alex lau</h1>
     <h3>- code</h3>
     <h3>- music</h3>
     <h3>- linguistics</h3>
-    <div class="intro">hover on albums for more details</div>
+    <div class="text">
+      <p class="playing"><span></span></p>
+      <p class="tip">hover on album covers for detail</p>
+      <p class="intro"></p>
+    </div>
     <p><a href="static/cv.pdf">cv</a></p>
     <p><a href="gd-radar.html">gd-radar</a></p>
     <p><a href="styled-latin.html">styled-latin</a></p>
@@ -144,112 +149,120 @@
   <script>
     const imgSrc = [
       {
-        src: 'https://img.discogs.com/CNFM-y8UYCLHT-t5KtNfZWo7EX8=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-5412368-1392722902-1304.jpeg.jpg',
+        id: 'esto-es-estopa',
         title: 'Esto es Estopa',
         artist: 'Estopa',
         year: 2014,
         comment: 'Estopa performed this unplugged live with their greatest Spanish folk-rock songs. It\'s just like an Iberian breeze that brings you back to Barcelona.',
+        track: '01. Como Camarón',
       },
       {
-        src: 'https://img.discogs.com/4VH8WsLDEQSxN4qzIuMqZNlCTZA=/fit-in/460x460/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-8024229-1453694465-1704.jpeg.jpg',
+        id: 'ev-en-vivo',
         title: 'EV: En Vivo',
         artist: 'Enanitos Verdes',
         year: 2004,
         comment: '',
+        track: '13. Luz de Día',
       },
       {
-        src: 'https://img.discogs.com/4RxO701-tEFRfDkYs2HFFp8RSHc=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-11225334-1512238691-9997.jpeg.jpg',
+        id: 'odisea',
         title: 'Odisea',
         artist: 'Ozuna',
         year: 2017,
         comment: '',
+        track: '02. Tu Foto',
       },
       {
-        src: 'https://img.discogs.com/cZChCy4Hmo-FgisM1Mhc4u_tjdA=/fit-in/600x596/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-3530553-1334078658.jpeg.jpg',
+        id: 'zuno-keisatsu-1',
         title: 'Zuno Keisatsu 1',
         artist: 'Zuno Keisatsu',
         year: 1975,
         comment: 'Rebel, romantic and revolutionary. Zuno Keisatsu somehow reminds us of that red era when all proletariats are really united, where Japan was not absent.',
+        track: '04. Farewell, Mrs. World',
       },
       {
-        src: 'https://img.discogs.com/3dRTO9EfnFdSgXZwUW39JWZaAk8=/fit-in/600x590/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-6626610-1607107548-2571.jpeg.jpg',
+        id: 'cover-70s',
         title: 'Cover 70\'s',
         artist: 'Jun Shibata',
         year: 2012,
         comment: '',
+        track: '11. Farewell at 22',
       },
       {
-        src: 'https://img.discogs.com/JtEtZGWshLw-pB2hkJV5syZU4Tc=/fit-in/600x519/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-7511238-1442990950-2328.jpeg.jpg',
+        id: '45',
         title: '45',
         artist: 'Kino',
         year: 1982,
         comment: 'If you haven\'t listened to Viktor Tsoy, you don\'t know Russian rock; and if you haven\'t listened to 45, you don\'t know Tsoy. Now it\'s time to get to know him.',
       },
       {
-        src: 'https://img.discogs.com/hf0GBbmcBEqzvyKD1l6yojInQjQ=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-8848316-1470035351-6385.jpeg.jpg',
+        id: 'touming-magazine-forever',
         title: 'Touming Magazine Forever',
         artist: 'Touming Magazine',
         year: 2012,
         comment: '',
+        track: '01. Touming Magazine Forever',
       },
       {
-        src: 'https://img.discogs.com/fCgd1rGQuzeZzTfAfL3oTGpPKXk=/fit-in/600x616/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-6275547-1415375736-3549.jpeg.jpg',
+        id: 'omnipotent-youth-society',
         title: 'Omnipotent Youth Society',
         artist: 'Omnipotent Youth Society',
         year: 2010,
-        comment: '',
+        comment: 'Leading band of contemporary Chinese rock - OYS marks the beginning of the 2nd rock wave in China. Their skill and understanding on instruments will make you excited.',
+        track: '01. Palace of Dog Piss',
       },
       {
-        src: 'https://img.discogs.com/-2ni-h17QEXzZexxrCtwOwNCcWM=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-3770987-1343740689-6721.jpeg.jpg',
+        id: 'ao-vivo',
         title: 'Ao Vivo',
         artist: 'Paula Fernandes',
         year: 2010,
         comment: '',
+        track: '09. Não Precisa'
       },
       {
-        src: 'https://ia803001.us.archive.org/26/items/mbid-29ddbc52-fd8a-4c77-b83b-def0f86ff7a2/mbid-29ddbc52-fd8a-4c77-b83b-def0f86ff7a2-22849627352.png',
+        id: 'that-year',
         title: 'That Year',
         artist: 'Xu Wei',
         year: 2000,
         comment: 'Xu suffered from melancholia at the time he recorded this album. All the aggressive riffs and shout-outs are like crashing the wall in his brain.',
       },
       {
-        src: './assets/poems-of-life.jpg',
+        id: 'poems-of-life',
         title: 'Poems of Life - Unplugged',
         artist: 'Gao Qi & Overload',
         year: 2006,
         comment: 'First and maybe the best unplugged rock live show of China. Laopaors (老炮儿) never die, they simply fade away.',
       },
       {
-        src: './assets/because-i-was-too-nervous-at-that-time.jpg',
+        id: 'because-i-was-too-nervous-at-that-time',
         title: 'Because I Was Too Nervous At That Time',
         artist: 'My Little Airport',
         year: 2005,
         comment: 'Youngsters in a densely populated city have their dreams and troubles. In this album MLA not only records the daily lives of theirs, but also the secret things in their mind.',
       },
       {
-        src: './assets/meteora.jpg',
+        id: 'meteora',
         title: 'Meteora',
         artist: 'Linkin Park',
         year: 2003,
         comment: 'An epochal band that changes metal, rock and hip-hop at the same time. Linkin Park is the best band in the pre-20s in my opinion.',
       },
       {
-        src: './assets/summer-fever.jpg',
+        id: 'summer-fever',
         title: 'Summer - Fever',
         artist: 'Sodagreen',
         year: 2003,
         comment: '',
       },
       {
-        src: './assets/desde-siempre.jpg',
+        id: 'desde-siempre',
         title: 'Desde Siempre',
         artist: 'Chayanne',
         year: 2003,
         comment: '',
       },
       {
-        src: './assets/meteora.jpg',
+        id: 'meteora',
         title: 'Meteora',
         artist: 'Linkin Park',
         year: 2003,
@@ -259,32 +272,64 @@
     const main = document.querySelector('main');
     function showIntro(info) {
       if (!info) {
-        $('.intro').text('hover on albums for more details');
+        $('.intro').empty();
+        $('.tip').text('hover on album covers for detail');
         return;
       }
       const { title, artist, year, comment } = info;
-      $('.intro').empty();
-      const spans = `<strong>${title.split('').join('</strong><strong>')}</strong>
+      $('.tip').text('click on cover to listen to track');
+      const spans = `<br/>
+      <strong>${title.split('').join('</strong><strong>')}</strong>
       <br/>
       <span>${`${artist} (${year})`.split('').join('</span><span>')}</span>
       <br/>
       <br/>
       <span>${comment.split('').join('</span><span>')}</span>`;
       $(spans).hide().appendTo('.intro').each(function (i) {
-          $(this).delay(100 * i).css({
-              display: 'inline',
-              opacity: 0
-          }).animate({
-              opacity: 1
-          }, 100);
+        $(this).delay(100 * i).css({
+          display: 'inline',
+          opacity: 0
+        }).animate({
+          opacity: 1
+        }, 100);
       });
     };
 
+    function playAudio (info) {
+      const [player] = $('audio');
+      if (!info) {
+        player.src = '';
+        player.pause();
+        $('.playing').hide();
+      }
+      player.src = `./assets/audio/${info.id}.ogg`;
+      player.play();
+      player.muted = false;
+      $('.playing').html(`<span></span> >> ${info.title} ${info.track}`);
+      $('.playing').show();
+    };
+
+    const [player] = $('audio');
+    player.addEventListener('timeupdate', () => {
+      $('.playing span').text(`${Math.floor(player.currentTime / 60)}:${String(Math.floor(player.currentTime % 60)).padStart(2, '0')}`);
+    });
+
     [...imgSrc, ...imgSrc].forEach((info) => {
       const section = document.createElement('section');
-      section.style.backgroundImage = `url('${info.src}')`;
-      section.onmouseover = () => showIntro(info);
-      section.onmouseout = () => showIntro();
+      section.style.backgroundImage = `url('./assets/cover/${info.id}.jpg')`;
+      section.onmouseover = () => {
+        showIntro(info);
+      };
+      section.onmouseout = () => {
+        showIntro();
+      };
+      section.onclick = () => {
+        playAudio(info);
+      };
+      document.onclick = (e) => {
+        if (e.target.nodeName === 'SECTION') return;
+        playAudio();
+      };
       main.appendChild(section);
     })
   </script>
