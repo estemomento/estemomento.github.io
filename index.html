@@ -63,7 +63,7 @@
         player.pause();
         $('.playing').hide();
       }
-      player.src = `./assets/audio/${info.id}.ogg`;
+      player.src = `./assets/audio/${info.id}.mp3`;
       player.play();
       player.muted = false;
       $('.playing').html(`<span></span> >> ${info.title} ${info.track}`);
