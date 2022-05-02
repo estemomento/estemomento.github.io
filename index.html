@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./assets/index-data.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
   <title>- alex lau -</title>
   <style>
@@ -13,6 +14,28 @@
       }
       100% {
         transform: translateY(-50%);
+      }
+    }
+    @keyframes jump {
+      0% {
+        top: 0;
+      }
+      50% {
+        top: 1rem;
+      }
+      100% {
+        top: 0;
+      }
+    }
+    @keyframes jump2 {
+      0% {
+        top: -5rem;
+      }
+      50% {
+        top: -4rem;
+      }
+      100% {
+        top: -5rem;
       }
     }
     * {
@@ -39,7 +62,7 @@
     main {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(25vh, 1fr));
-      width: 100vh;
+      width: calc(var(--vh, 1vh) * 100);
       animation: scroller linear 20s infinite;
     }
     main:hover {
@@ -70,13 +93,32 @@
       border: 0.8rem solid #fff;
     }
     aside {
+      transition: 500ms transform ease-in-out;
       flex: 1;
       display: flex;
       flex-direction: column;
       padding: 4rem;
       min-width: 400px;
       max-width: calc(100vw - 100vh);
-      height: 100vh;
+      height: calc(var(--vh, 1vh) * 100);
+    }
+    aside.hidden {
+      transform: translateY(100%);
+    }
+    .arrow {
+      width: 100vw;
+      text-align: center;
+      left: 0;
+      top: 0;
+      position: absolute;
+      font-size: 5rem;
+      transform: rotate(180deg) translate(0, 2rem);
+      animation: jump ease-in-out 1s infinite;
+    }
+    aside.hidden .arrow {
+      top: -5rem;
+      transform: none;
+      animation: jump2 ease-in-out 1s infinite;
     }
     h1 {
       font-size: 4rem;
@@ -130,7 +172,7 @@
 <body>
   <main></main>
   <aside>
-    <audio muted></audio>
+    <figure class="arrow">^</figure>
     <h1>alex lau</h1>
     <h3>- code</h3>
     <h3>- music</h3>
@@ -146,129 +188,8 @@
     <p class="right"><a href="https://t.me/alejandrolau">@alejandrolau</a></p>
     <p class="right"><a href="mailto:alejandrolau@msn.cn">alejandrolau#msn.cn</a></p>
   </aside>
+  <audio muted></audio>
   <script>
-    const imgSrc = [
-      {
-        id: 'esto-es-estopa',
-        title: 'Esto es Estopa',
-        artist: 'Estopa',
-        year: 2014,
-        comment: 'Estopa performed this unplugged live with their greatest Spanish folk-rock songs. It\'s just like an Iberian breeze that brings you back to Barcelona.',
-        track: '01. Como Camarón',
-      },
-      {
-        id: 'ev-en-vivo',
-        title: 'EV: En Vivo',
-        artist: 'Enanitos Verdes',
-        year: 2004,
-        comment: '',
-        track: '13. Luz de Día',
-      },
-      {
-        id: 'odisea',
-        title: 'Odisea',
-        artist: 'Ozuna',
-        year: 2017,
-        comment: '',
-        track: '02. Tu Foto',
-      },
-      {
-        id: 'zuno-keisatsu-1',
-        title: 'Zuno Keisatsu 1',
-        artist: 'Zuno Keisatsu',
-        year: 1975,
-        comment: 'Rebel, romantic and revolutionary. Zuno Keisatsu somehow reminds us of that red era when all proletariats are really united, where Japan was not absent.',
-        track: '04. Farewell, Mrs. World',
-      },
-      {
-        id: 'cover-70s',
-        title: 'Cover 70\'s',
-        artist: 'Jun Shibata',
-        year: 2012,
-        comment: '',
-        track: '11. Farewell at 22',
-      },
-      {
-        id: '45',
-        title: '45',
-        artist: 'Kino',
-        year: 1982,
-        comment: 'If you haven\'t listened to Viktor Tsoy, you don\'t know Russian rock; and if you haven\'t listened to 45, you don\'t know Tsoy. Now it\'s time to get to know him.',
-      },
-      {
-        id: 'touming-magazine-forever',
-        title: 'Touming Magazine Forever',
-        artist: 'Touming Magazine',
-        year: 2012,
-        comment: '',
-        track: '01. Touming Magazine Forever',
-      },
-      {
-        id: 'omnipotent-youth-society',
-        title: 'Omnipotent Youth Society',
-        artist: 'Omnipotent Youth Society',
-        year: 2010,
-        comment: 'Leading band of contemporary Chinese rock - OYS marks the beginning of the 2nd rock wave in China. Their skill and understanding on instruments will make you excited.',
-        track: '01. Palace of Dog Piss',
-      },
-      {
-        id: 'ao-vivo',
-        title: 'Ao Vivo',
-        artist: 'Paula Fernandes',
-        year: 2010,
-        comment: '',
-        track: '09. Não Precisa'
-      },
-      {
-        id: 'that-year',
-        title: 'That Year',
-        artist: 'Xu Wei',
-        year: 2000,
-        comment: 'Xu suffered from melancholia at the time he recorded this album. All the aggressive riffs and shout-outs are like crashing the wall in his brain.',
-      },
-      {
-        id: 'poems-of-life',
-        title: 'Poems of Life - Unplugged',
-        artist: 'Gao Qi & Overload',
-        year: 2006,
-        comment: 'First and maybe the best unplugged rock live show of China. Laopaors (老炮儿) never die, they simply fade away.',
-      },
-      {
-        id: 'because-i-was-too-nervous-at-that-time',
-        title: 'Because I Was Too Nervous At That Time',
-        artist: 'My Little Airport',
-        year: 2005,
-        comment: 'Youngsters in a densely populated city have their dreams and troubles. In this album MLA not only records the daily lives of theirs, but also the secret things in their mind.',
-      },
-      {
-        id: 'meteora',
-        title: 'Meteora',
-        artist: 'Linkin Park',
-        year: 2003,
-        comment: 'An epochal band that changes metal, rock and hip-hop at the same time. Linkin Park is the best band in the pre-20s in my opinion.',
-      },
-      {
-        id: 'summer-fever',
-        title: 'Summer - Fever',
-        artist: 'Sodagreen',
-        year: 2003,
-        comment: '',
-      },
-      {
-        id: 'desde-siempre',
-        title: 'Desde Siempre',
-        artist: 'Chayanne',
-        year: 2003,
-        comment: '',
-      },
-      {
-        id: 'meteora',
-        title: 'Meteora',
-        artist: 'Linkin Park',
-        year: 2003,
-        comment: 'An epochal band that changes metal, rock and hip-hop at the same time. Linkin Park is the best band in the pre-20s in my opinion.',
-      },
-    ];
     const main = document.querySelector('main');
     function showIntro(info) {
       if (!info) {
@@ -314,7 +235,12 @@
       $('.playing span').text(`${Math.floor(player.currentTime / 60)}:${String(Math.floor(player.currentTime % 60)).padStart(2, '0')}`);
     });
 
-    [...imgSrc, ...imgSrc].forEach((info) => {
+    const [arrow] = $('aside figure');
+    arrow.addEventListener('click', () => {
+      $('aside').toggleClass('hidden');
+    });
+
+    [...data, ...data].forEach((info) => {
       const section = document.createElement('section');
       section.style.backgroundImage = `url('./assets/cover/${info.id}.jpg')`;
       section.onmouseover = () => {
@@ -326,10 +252,10 @@
       section.onclick = () => {
         playAudio(info);
       };
-      document.onclick = (e) => {
-        if (e.target.nodeName === 'SECTION') return;
-        playAudio();
-      };
+      // document.onclick = (e) => {
+      //   if (e.target.nodeName === 'SECTION') return;
+      //   playAudio();
+      // };
       main.appendChild(section);
     })
   </script>
