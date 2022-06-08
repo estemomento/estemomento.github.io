@@ -8,50 +8,37 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; }
     body { display: flex; flex-direction: column; }
-    .row { display: flex; width: 100vw; height: 50vh; }
-    .info, .input-wrapper { position: relative; width: 50%; height: 100%; padding: 12px; }
-    .info { display: flex; flex-direction: column; justify-content: space-around; align-items: center; }
-    .paste-source { border: 1px solid #000; padding: 12px; font-size: 32px;}
+    .row { display: flex; width: 100vw; height: 100vh; }
+    .input-wrapper { position: relative; width: 50%; height: 100%; padding: 12px; }
+    .info { position: absolute; display: flex; flex-direction: column; justify-content: space-around; align-items: center; width: 100%; height: 40%; font-size: 48px; }
     .input-wrapper>div { width: 100%; height: 100%; }
-    textarea { width: 100%; height: 100%; padding: 8px; font-size: 32px; background: transparent; resize: none; }
+    textarea { width: 100%; height: 100%; padding: 8px; font-size: 28px; background: transparent; resize: none; line-height: 32px; }
     .input-wrapper>div::before { right: 10%; bottom: 10%; z-index: -1; position: absolute; font-size: calc(6vw + 6vh); color: #eee; }
     #uey-wrapper>div::before { content: 'ئۇيغۇر' }
     #uyy-wrapper>div::before { content: 'Uyƣur' }
     #uly-wrapper>div::before { content: 'Uyghur' }
+
+    @media (prefers-color-scheme: dark) {
+      body { background: #000; }
+      .info { color: #111; }
+      textarea { color: #aaa; }
+      .input-wrapper>div::before { color: #111; }
+    }
   </style>
 </head>
 <body>
-  <div class="row">
-      <div class="info">
-        <h1>维吾尔语文字转换器</h1>
-        <h2>Uyghur Scripts Converter</h2>
-        <h2>ئۇيغۇر يېزىقى</h2>
-        <span>
-          使用：直接输入 / 粘贴到对应文字种类的窗格中，系统会自动转换
-          <br>
-          Usage: Just input / paste to the corresponding textarea, it will be converted automatically.
-          <br>
-          ئۇيغۇر ئەرەب يېزىقى ئۇيغۇر ئەرەب يېزىقى ئۇيغۇر ئەرەب يېزىقى
-        </span>
-        <p></p>
-        <div class="paste-source">
-          <span><strong>UYY</strong>: Əə Ⱬⱬ Ƣƣ Ⱪⱪ Ⱨⱨ Ɵɵ Üü</span>
-          |
-          <span><strong>ULY</strong>: Öö Üü Ëë</span>
-        </div>
-        <p>Copyright 2018 - Forever, Code by Aleko Lau</p>
-      </div>
-      <div class="input-wrapper" id="uey-wrapper">
-        <div><textarea id="uey" style="direction:rtl"></textarea></div>
-      </div>
+  <div class="info">
+    <h1>Uyghur Transliteration</h1>
+    <h1>ئۇيغۇرچە تەرجىمىسى</h1>
+    <p>© 2022 ئەركىن تۆمۈرجان ھىكمەت</p>
   </div>
   <div class="row">
-      <!-- <div class="input-wrapper" id="uyy-wrapper">
-        <div><textarea id="uyy"></textarea></div>
-      </div> -->
-      <div class="input-wrapper" id="uly-wrapper">
-        <div><textarea id="uly"></textarea></div>
-      </div>
+    <div class="input-wrapper" id="uey-wrapper">
+      <div><textarea id="uey" style="direction:rtl"></textarea></div>
+    </div>
+    <div class="input-wrapper" id="uly-wrapper">
+      <div><textarea id="uly"></textarea></div>
+    </div>
   </div>
   <script>
     const dict = {
@@ -101,6 +88,7 @@
       const ret = strArr.map((v, i) => {
         let extraPrefix = '' // Used for hemze
         let isUpper = false
+        let insertDivider = false
         let matcher = v
         if (from === 'uly' && matcher === 'é') matcher = 'ë' // Old style
         if (to === 'uey') { // Add hemze for initial vowels
@@ -129,7 +117,7 @@
               console.log('delete \'', from, to)
               strArr[i + 1] = ''
             }
-            if (v.toLowerCase() === 'z' && strArr[i + 1] === '\'' && strArr[i + 2] && strArr[i + 2].toLowerCase() === 'h' && to === 'uey') { // deal with z'h
+            if (['s', 'z', 'g'].includes(v.toLowerCase()) && strArr[i + 1] === '\'' && strArr[i + 2] && strArr[i + 2].toLowerCase() === 'h' && to === 'uey') { // deal with s'h, z'h and g'h
               console.log('delete \'', from, to)
               strArr[i + 1] = ''
             }
@@ -141,9 +129,12 @@
               strArr[i + 1] = ''
             }
           }
+          if (from === 'uey') {
+            if ((v === 'ن' && ['گ', 'غ'].includes(strArr[i + 1])) || (['س', 'ز', 'گ'].includes(v) && strArr[i + 1] === 'ھ')) insertDivider = true
+          }
         }
         for (const [index, item] of Object.entries(dict)) { // Perform dict matching
-          if (item[from] === matcher) return extraPrefix + (isUpper ? item[to].toUpperCase() : item[to])
+          if (item[from] === matcher) return extraPrefix + (isUpper ? item[to].toUpperCase() : item[to]) + (insertDivider ? '\'' : '')
         }
         return v
       })
