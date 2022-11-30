@@ -50,6 +50,10 @@
 	width: 100%;
 }
 
+.footer-comp .caict img {
+	object-fit: cover;
+}
+
 .footer-comp .caict .caict1 {
 	margin-top: .015rem;
 	height: .28rem;
