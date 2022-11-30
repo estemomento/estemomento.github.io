@@ -42,11 +42,42 @@
 }
 
 .footer-comp .caict {
-	margin: .15rem auto 0
+	margin: .15rem auto 0;
+	display: flex;
+	flex-shrink: 0;
+	flex-direction: row;
+	justify-content: center;
+	width: 100%;
 }
 
-.footer-comp .caict img {
-	width: 100%
+.footer-comp .caict .caict1 {
+	margin-top: .015rem;
+	height: .28rem;
+	width: 1.54rem
+}
+
+.footer-comp .caict .caict2 {
+	height: .3rem;
+	width: 1rem;
+	margin-left: .185rem
+}
+
+.footer-comp .caict .caict3 {
+	height: .34rem;
+	width: 1.2rem;
+	margin-left: .185rem
+}
+
+.footer-comp .caict .caict4 {
+	height: .33rem;
+	width: 1.18rem;
+	margin-left: .185rem
+}
+
+.footer-comp .caict .caict5 {
+	height: .34rem;
+	width: 1.3rem;
+	margin-left: .15rem
 }
 
 .footer-comp .operator-list {
