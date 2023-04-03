@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="chapters.json"></script>
+  <title>临高启明</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div @keydown.37="goToPrev" id="app">
+    <header>
+      <a @click="showAside">临高启明</a>
+    </header>
+    <main>
+      <aside :class="{ show: isAside }">
+        <ul>
+          <li @click="goTo(0, 1)">首页</li>
+          <ul v-for="(ch, x) in chapters" @click="showSections(ch.no)">
+            <div>{{ch.no}} {{ch.name}}</div>
+            <li v-if="expandedChapter === ch.no" v-for="(s, i) in ch.sections" @click="goTo(x + 1, i + 1)">{{ch.no}}-{{i + 1}} {{s}}</li>
+          </ul>
+        </ul>
+      </aside>
+      <section :style="{ fontSize: fontSize + 'em' }">
+        <div class="info">
+          <div>
+            <span v-if="current.chapter > 0">{{info.aid}}-{{info.zid}}</span>
+            <h1>{{info.title}}</h1>
+            <h3>{{info.author}}</h3>
+          </div>
+          <div class="controller">
+            <a @click="goToPrev" v-if="current.chapter > 0">&lt;</a>
+            <a @click="goToNext" v-if="current.chapter > 0">&gt;</a>
+            <a @click="goToNext" v-else>开始阅读 &gt;</a>
+          </div>
+        </div>
+        <div class="content" v-html="info.html"></div>
+      </section>
+    </main>
+  </div>
+</body>
+
+<script>
+  const limit = [1, 47, 183, 382, 237, 472, 483, 459, 184];
+  function readMd (file, callback) {
+    const rawFile = new XMLHttpRequest();
+    rawFile.open('GET', file, false);
+    rawFile.onreadystatechange = () => {
+      if (rawFile.readyState === 4) {
+        if (rawFile.status === 200 || rawFile.status == 0) {
+          const [head, ...text] = rawFile.responseText.split('\n\n');
+          const html = text.map(p => `<p>${p}</p>`).join('');
+          const [, aid, zid, title, author] = head.split('\n').map(p => p.split(': ')[1]).map(v => Number(v?.slice(1, -1)) ? Number(v.slice(1, -1)) : v)
+          const info = { aid, zid, title, author, html };
+          callback(info);
+        }
+      }
+    }
+    rawFile.send(null);
+  }
+  const { createApp } = Vue;
+
+  createApp({
+    data: () => ({
+      current: {
+        chapter: 0,
+        part: 1,
+      },
+      info: {
+        aid: '',
+        zid: '',
+        title: '',
+        author: '',
+        html: ''
+      },
+      isAside: false,
+      chapters: [],
+      expandedChapter: null,
+      fontSize: 1,
+    }),
+    mounted() {
+      this.chapters = chapters
+      document.onkeydown = e => {
+        let key = window.event.keyCode;
+        if (key === 37 || key === 65) {
+          this.goToPrev();
+        } else if (key === 39 || key === 68) {
+          this.goToNext();
+        } else if (key === 77) {
+          this.showAside();
+        } else if (key === 107 || key === 187) {
+          this.adjustFontSize(11/10);
+        } else if (key === 109 || key === 189) {
+          this.adjustFontSize(10/11);
+        }
+      }
+      if (location.search) this.read(...location.search.slice(3).split('-').map(v => Number(v)));
+      else this.read(0, 1);
+    },
+    methods: {
+      read (chapter, part) {
+        readMd(`content/${String(chapter).padStart(4, '0')}/${String(part).padStart(4, '0')}.md`, (info) => {
+          this.current = { chapter, part };
+          this.info = info;
+        });
+      },
+      showAside () {
+        this.isAside = !this.isAside;
+      },
+      showSections (no) {
+        if (this.expandedChapter === no) this.expandedChapter = null;
+        else this.expandedChapter = no;
+      },
+      goTo (chapter, part) {
+        this.read(chapter, part);
+        this.expandedChapter = null;
+        this.showAside();
+        location.search = `p=${chapter}-${part}`
+      },
+      goToPrev () {
+        if (this.current.chapter < 1) return
+        if (this.current.part === 1) {
+          this.read(this.current.chapter - 1, limit[this.current.chapter - 1]);
+        } else {
+          this.read(this.current.chapter, this.current.part - 1);
+        }
+      },
+      goToNext () {
+        if (this.current.part === limit[this.current.chapter]) {
+          this.read(this.current.chapter + 1, 1);
+        } else {
+          this.read(this.current.chapter, this.current.part + 1);
+        }
+      },
+      adjustFontSize (delta) {
+        this.fontSize = this.fontSize * delta
+      },
+    }
+  }).mount('#app')
+</script>
