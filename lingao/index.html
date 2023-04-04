@@ -53,7 +53,7 @@
         if (rawFile.status === 200 || rawFile.status == 0) {
           const [head, ...text] = rawFile.responseText.split('\n\n');
           const html = text.map(p => `<p>${p}</p>`).join('');
-          const [, aid, zid, title, author] = head.split('\n').map(p => p.split(': ')[1]).map(v => Number(v?.slice(1, -1)) ? Number(v.slice(1, -1)) : v)
+          const [aid, zid, title, author] = head.split('\n').map(p => p.split(': ')[1]).map(v => Number(v?.slice(1, -1)) ? Number(v.slice(1, -1)) : v)
           const info = { aid, zid, title, author, html };
           callback(info);
         }
