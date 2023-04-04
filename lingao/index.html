@@ -116,8 +116,6 @@
         else this.expandedChapter = no;
       },
       goTo (chapter, part) {
-        // this.read(chapter, part);
-        // this.expandedChapter = null;
         this.showAside(false);
         setTimeout(() => location.search = `p=${chapter}-${part}`, 200)
       },
