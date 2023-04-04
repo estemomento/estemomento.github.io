@@ -12,7 +12,7 @@
 <body>
   <div @keydown.37="goToPrev" id="app">
     <header>
-      <a @click="showAside">临高启明</a>
+      <a @click="showAside(!isAside)">临高启明</a>
     </header>
     <main>
       <aside :class="{ show: isAside }">
@@ -44,6 +44,7 @@
 </body>
 
 <script>
+  const chapterList = ['0', '1', '2', '3', '4', '5', '6', '7-1', '7-2', '7-3', '7-4', '8'];
   const limit = [1, 47, 183, 382, 237, 472, 483, 459, 184];
   function readMd (file, callback) {
     const rawFile = new XMLHttpRequest();
@@ -53,7 +54,7 @@
         if (rawFile.status === 200 || rawFile.status == 0) {
           const [head, ...text] = rawFile.responseText.split('\n\n');
           const html = text.map(p => `<p>${p}</p>`).join('');
-          const [aid, zid, title, author] = head.split('\n').map(p => p.split(': ')[1]).map(v => Number(v?.slice(1, -1)) ? Number(v.slice(1, -1)) : v)
+          const [aid, zid, title, author] = head.split('\n').map(p => p.split(': ')[1])
           const info = { aid, zid, title, author, html };
           callback(info);
         }
@@ -90,7 +91,7 @@
         } else if (key === 39 || key === 68) {
           this.goToNext();
         } else if (key === 77) {
-          this.showAside();
+          this.showAside(!this.isAside);
         } else if (key === 107 || key === 187) {
           this.adjustFontSize(11/10);
         } else if (key === 109 || key === 189) {
@@ -102,37 +103,37 @@
     },
     methods: {
       read (chapter, part) {
-        readMd(`content/${String(chapter).padStart(4, '0')}/${String(part).padStart(4, '0')}.txt`, (info) => {
+        readMd(`content/${chapterList[chapter]}/${part}.txt`, (info) => {
           this.current = { chapter, part };
           this.info = info;
         });
       },
-      showAside () {
-        this.isAside = !this.isAside;
+      showAside (boolean) {
+        this.isAside = boolean;
       },
       showSections (no) {
         if (this.expandedChapter === no) this.expandedChapter = null;
         else this.expandedChapter = no;
       },
       goTo (chapter, part) {
-        this.read(chapter, part);
-        this.expandedChapter = null;
-        this.showAside();
-        location.search = `p=${chapter}-${part}`
+        // this.read(chapter, part);
+        // this.expandedChapter = null;
+        this.showAside(false);
+        setTimeout(() => location.search = `p=${chapter}-${part}`, 200)
       },
       goToPrev () {
         if (this.current.chapter < 1) return
         if (this.current.part === 1) {
-          this.read(this.current.chapter - 1, limit[this.current.chapter - 1]);
+          this.goTo(this.current.chapter - 1, limit[this.current.chapter - 1]);
         } else {
-          this.read(this.current.chapter, this.current.part - 1);
+          this.goTo(this.current.chapter, this.current.part - 1);
         }
       },
       goToNext () {
         if (this.current.part === limit[this.current.chapter]) {
-          this.read(this.current.chapter + 1, 1);
+          this.goTo(this.current.chapter + 1, 1);
         } else {
-          this.read(this.current.chapter, this.current.part + 1);
+          this.goTo(this.current.chapter, this.current.part + 1);
         }
       },
       adjustFontSize (delta) {
