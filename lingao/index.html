@@ -102,7 +102,7 @@
     },
     methods: {
       read (chapter, part) {
-        readMd(`content/${String(chapter).padStart(4, '0')}/${String(part).padStart(4, '0')}.js`, (info) => {
+        readMd(`content/${String(chapter).padStart(4, '0')}/${String(part).padStart(4, '0')}.txt`, (info) => {
           this.current = { chapter, part };
           this.info = info;
         });
