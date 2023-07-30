@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Ukranian Transliteration (modified Jireček)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; }
+    body { display: flex; flex-direction: column; }
+    .row { display: flex; width: 100vw; height: 100vh; }
+    .input-wrapper { position: relative; width: 50%; height: 100%; padding: 12px; }
+    .info { position: absolute; display: flex; flex-direction: column; justify-content: space-around; align-items: center; width: 100%; height: 240px; font-size: 36px; }
+    .input-wrapper>div { width: 100%; height: 100%; }
+    textarea { width: 100%; height: 100%; padding: 8px; font-size: 28px; background: transparent; resize: none; line-height: 32px; }
+    .input-wrapper>div::before { right: 10%; bottom: 10%; z-index: -1; position: absolute; font-size: calc(6vw); color: #eee; }
+    #kyr-wrapper>div::before { content: 'Українська' }
+    #lat-wrapper>div::before { content: 'Ukrajinśka' }
+
+    @media (prefers-color-scheme: dark) {
+      body { background: #000; }
+      .info { color: #111; }
+      textarea { color: #aaa; }
+      .input-wrapper>div::before { color: #111; }
+    }
+  </style>
+</head>
+<body>
+  <div class="info">
+    <h1>Ukranian Transliteration (modified Jireček)</h1>
+    <h1>Українська транслітерація (змінений Їречек)</h1>
+    <p>© 2023 Alex Lau</p>
+  </div>
+  <div class="row">
+    <div class="input-wrapper" id="kyr-wrapper">
+      <div><textarea id="kyr"></textarea></div>
+    </div>
+    <div class="input-wrapper" id="lat-wrapper">
+      <div><textarea id="lat"></textarea></div>
+    </div>
+  </div>
+  <script>
+    const dict = {
+      a: { kyr: 'а', lat: 'a' },
+      b: { kyr: 'б', lat: 'b' },
+      c: { kyr: 'ц', lat: 'c' },
+      ć: { kyr: 'ць', lat: 'ć' },
+      č: { kyr: 'ч', lat: 'č' },
+      d: { kyr: 'д', lat: 'd' },
+      ď: { kyr: 'дь', lat: 'ď' },
+      e: { kyr: 'е', lat: 'e' },
+      f: { kyr: 'ф', lat: 'f' },
+      g: { kyr: 'ґ', lat: 'g' },
+      h: { kyr: 'г', lat: 'h' },
+      i: { kyr: 'і', lat: 'i' },
+      j: { kyr: 'й', lat: 'j' },
+      ja: { kyr: 'я', lat: 'ja' },
+      je: { kyr: 'є', lat: 'je' },
+      ji: { kyr: 'ї', lat: 'ji' },
+      ju: { kyr: 'ю', lat: 'ju' },
+      k: { kyr: 'к', lat: 'k' },
+      l: { kyr: 'л', lat: 'l' },
+      ľ: { kyr: 'ль', lat: 'ľ' },
+      m: { kyr: 'м', lat: 'm' },
+      n: { kyr: 'н', lat: 'n' },
+      ń: { kyr: 'нь', lat: 'ń' },
+      o: { kyr: 'о', lat: 'o' },
+      p: { kyr: 'п', lat: 'p' },
+      r: { kyr: 'р', lat: 'r' },
+      ŕ: { kyr: 'рь', lat: 'ŕ' },
+      s: { kyr: 'с', lat: 's' },
+      ś: { kyr: 'сь', lat: 'ś' },
+      š: { kyr: 'ш', lat: 'š' },
+      šč: { kyr: 'щ', lat: 'šč' },
+      t: { kyr: 'т', lat: 't' },
+      ť: { kyr: 'ть', lat: 'ť' },
+      u: { kyr: 'у', lat: 'u' },
+      v: { kyr: 'в', lat: 'v' },
+      x: { kyr: 'х', lat: 'x' },
+      y: { kyr: 'и', lat: 'y' },
+      z: { kyr: 'з', lat: 'z' },
+      ź: { kyr: 'зь', lat: 'ź' },
+      ž: { kyr: 'ж', lat: 'ž' }
+    }
+
+    function convert (str, from, to) {
+      if (from === to) return str
+      const strArr = [...str]
+      const ret = strArr.map((v, i) => {
+        let isUpper = false
+        let insertDivider = false
+        let matcher = v
+        if (matcher !== matcher.toLowerCase()) isUpper = true
+        matcher = matcher.toLowerCase()
+        if (strArr[i + 1]) { // Match diphthongs
+          if (from === 'lat') {
+            if (v.toLowerCase() === 'j' && strArr[i + 1].toLowerCase() === 'a') { matcher = 'ja'; strArr.splice(i + 1, 1) }
+            if (v.toLowerCase() === 'j' && strArr[i + 1].toLowerCase() === 'e') { matcher = 'je'; strArr.splice(i + 1, 1) }
+            if (v.toLowerCase() === 'j' && strArr[i + 1].toLowerCase() === 'i') { matcher = 'ji'; strArr.splice(i + 1, 1) }
+            if (v.toLowerCase() === 'j' && strArr[i + 1].toLowerCase() === 'u') { matcher = 'ju'; strArr.splice(i + 1, 1) }
+            if (v.toLowerCase() === 'š' && strArr[i + 1].toLowerCase() === 'č') { matcher = 'šč'; strArr.splice(i + 1, 1) }
+          }
+          if (from === 'kyr') {
+            if (v && strArr[i + 1].toLowerCase() === 'ь') { matcher = `${v}ь`; strArr.splice(i + 1, 1) }
+          }
+        }
+        for (const [index, item] of Object.entries(dict)) { // Perform dict matching
+          if (item[from] === matcher) return (isUpper ? item[to].toUpperCase() : item[to]) + (insertDivider ? '\'' : '')
+        }
+        return v
+      })
+      ret.map((v, i) => { // Delete extra (')s
+        if (v === '\'' && (i === 0 || ret[i - 1].toUpperCase() === ret[i - 1].toLowerCase())) {
+          ret.splice(i, 1)
+        }
+      })
+      // console.log(ret)
+      return ret.join('')
+    }
+    document.getElementById('kyr').oninput = function kyrInput (e) {
+      document.getElementById('lat').value = convert(e.target.value, 'kyr', 'lat')
+    }
+
+    document.getElementById('lat').oninput = function latInput (e) {
+      document.getElementById('kyr').value = convert(e.target.value, 'lat', 'kyr')
+    }
+  </script>
+</body>
+</html>
