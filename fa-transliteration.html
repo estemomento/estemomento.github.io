@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Farsi Transliteration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; }
+    body { display: flex; flex-direction: column; }
+    .row { display: flex; width: 100vw; height: 100vh; }
+    .input-wrapper { position: relative; width: 50%; height: 100%; padding: 12px; }
+    .info { position: absolute; display: flex; flex-direction: column; justify-content: space-around; align-items: center; width: 100%; height: 240px; font-size: 36px; }
+    .input-wrapper>div { width: 100%; height: 100%; }
+    textarea { width: 100%; height: 100%; padding: 8px; font-size: 28px; background: transparent; resize: none; line-height: 32px; }
+    .input-wrapper>div::before { right: 10%; bottom: 10%; z-index: -1; position: absolute; font-size: calc(6vw); color: #eee; }
+    #far-wrapper>div::before { content: 'فارسی' }
+    #lat-wrapper>div::before { content: 'Fârsi' }
+
+    @media (prefers-color-scheme: dark) {
+      body { background: #000; }
+      .info { color: #111; }
+      textarea { color: #aaa; }
+      .input-wrapper>div::before { color: #111; }
+    }
+  </style>
+</head>
+<body>
+  <div class="info">
+    <h1>Farsi Transliteration</h1>
+    <h1>ترجمه فارسی</h1>
+    <p>© 2023 Alex Lau</p>
+  </div>
+  <div class="row">
+    <div class="input-wrapper" id="far-wrapper">
+      <div><textarea id="far" style="direction: rtl;"></textarea></div>
+    </div>
+    <div class="input-wrapper" id="lat-wrapper">
+      <div><textarea id="lat"></textarea></div>
+    </div>
+  </div>
+  <script>
+    const dict = {
+      '\'': { far: 'ء', lat: '\'' },
+      '\'a': { far: 'أ', lat: '\'a' },
+      '\'y': { far: 'ئ', lat: '\'y' },
+      // '\'': { far: 'ء', lat: '\'' },
+      a: { far: 'ا', lat: 'a' },
+      â: { far: 'آ', lat: 'â' },
+      b: { far: 'ب', lat: 'b' },
+      c: { far: 'ع', lat: 'c' },
+      č: { far: 'چ', lat: 'č' },
+      d: { far: 'د', lat: 'd' },
+      ď: { far: 'ظ', lat: 'ď' },
+      f: { far: 'ف', lat: 'f' },
+      g: { far: 'گ', lat: 'g' },
+      ğ: { far: 'غ', lat: 'ğ' },
+      h: { far: 'ه', lat: 'h' },
+      ḥ: { far: 'ح', lat: 'ḥ' },
+      j: { far: 'ج', lat: 'j' },
+      k: { far: 'ک', lat: 'k' },
+      l: { far: 'ل', lat: 'l' },
+      m: { far: 'م', lat: 'm' },
+      n: { far: 'ن', lat: 'n' },
+      p: { far: 'پ', lat: 'p' },
+      q: { far: 'ق', lat: 'q' },
+      r: { far: 'ر', lat: 'r' },
+      s: { far: 'س', lat: 's' },
+      š: { far: 'ش', lat: 'š' },
+      ṣ: { far: 'ص', lat: 'ṣ' },
+      s̱: { far: 'ث', lat: 's̱' },
+      t: { far: 'ت', lat: 't' },
+      ť: { far: 'ط', lat: 'ť' },
+      u: { far: 'و', lat: 'u' },
+      x: { far: 'خ', lat: 'x' },
+      y: { far: 'ی', lat: 'y' },
+      z: { far: 'ز', lat: 'z' },
+      ẓ: { far: 'ض', lat: 'ẓ' },
+      ž: { far: 'ژ', lat: 'ž' }
+    }
+
+    function convert (str, from, to) {
+      if (from === to) return str
+      const strArr = [...str]
+      const ret = strArr.map((v, i) => {
+        let isUpper = false
+        let isFinalH = false
+        let matcher = v
+        if (matcher !== matcher.toLowerCase()) isUpper = true
+        matcher = matcher.toLowerCase()
+        if (strArr[i + 1]) { // Match diphthongs
+          if (from === 'lat') {
+            if (v.toLowerCase() === 'e') { matcher = 'h' }
+          }
+          if (from === 'far') {
+            if (v === 'ه' && [' ', '\n', undefined].includes(strArr[i + 1])) { isFinalH = true }
+          }
+        }
+        for (const [index, item] of Object.entries(dict)) { // Perform dict matching
+          if (item[from] === matcher) return (isFinalH ? 'e' : isUpper ? item[to].toUpperCase() : item[to])
+        }
+        return v
+      })
+      ret.map((v, i) => { // Delete extra (')s
+        if (v === '\'' && (i === 0 || ret[i - 1].toUpperCase() === ret[i - 1].toLowerCase())) {
+          ret.splice(i, 1)
+        }
+      })
+      // console.log(ret)
+      return ret.join('')
+    }
+    document.getElementById('far').oninput = function farInput (e) {
+      document.getElementById('lat').value = convert(e.target.value, 'far', 'lat')
+    }
+
+    document.getElementById('lat').oninput = function latInput (e) {
+      document.getElementById('far').value = convert(e.target.value, 'lat', 'far')
+    }
+  </script>
+</body>
+</html>
