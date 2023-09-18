@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Visited Counties</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <style type="text/css">
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+    h1 {
+      position: absolute; top: 10px; display: block; width: 100vw; 
+      text-align: center; color: #ccccccaa; text-shadow: 0px 0px 20px #fff;
+    }
+    h2 {
+      position: absolute; top: 60px; display: block; width: 100vw; 
+      text-align: center; color: #ccccccaa; text-shadow: 0px 0px 20px #fff;
+    }
+    body { width: 100vw; height: calc(var(--vh, 1vh) * 100); }
+    #map { width: 100vw; height: calc(var(--vh, 1vh) * 100); }
+    #error {
+      z-index: -1; position: absolute; top: calc(50vh - 30px); left: calc(50vw - 150px);
+      display: flex; justify-content: center; align-items: center;
+      width: 300px; height: 60px; border-radius: 8px; opacity: 0;
+      font-size: 16px; font-weight: bold; color: #222; background: #fff; transition: 0.4s ease-in-out;
+    }
+    #info {
+      position: absolute; bottom: 80px; left: calc(50vw - 84px);
+      display: flex; justify-content: center; width: 168px;
+      font-size: 16px; font-weight: bold; color: #ccccccaa; text-shadow: 0px 0px 20px #fff;
+    }
+    button {
+      position: absolute; bottom: 20px; width: 64px; height: 64px; 
+      font-size: 48px; background: transparent; border: 0; opacity: 0.6;
+    }
+    footer {
+      position: absolute; bottom: 0; left: calc(50vw - 84px);
+      display: flex; justify-content: center; width: 168px;
+      font-size: 10px; color: #ccccccaa; text-shadow: 0px 0px 20px #fff;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="input-card">
+  </div>
+  <script src="https://webapi.amap.com/maps?v=2.0&key=828956f5cecf547a3d51fddafefa6c87&plugin=Map3D,AMap.DistrictLayer,AMap.Scale,AMap.ToolBar"></script>
+  <script src="https://a.amap.com/Loca/static/mock/adcodes.js"></script>
+  <h1>中国攻略</h1>
+  <h2>省：0 / 34 地：0 / 333 县：0 / 2843</h2>
+  <p id="info"></p>
+  <footer>© 2023 Aleko</footer>
+  <script>
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    var map = new AMap.Map("map", {
+      zoom: 4.5,
+      center: [116.412427, 39.303573],
+      pitch: 0,
+      viewMode: '3D',
+      mapStyle: 'amap://styles/dark'
+    });
+    
+    const styles = {
+      'fill': function (properties) {
+        // properties为可用于做样式映射的字段，包含
+        // NAME_CHN:中文名称
+        // adcode_pro
+        // adcode_cit
+        // adcode
+        const visited = JSON.parse(localStorage.getItem('egio-visited')) || []
+        return visited.includes(properties.adcode) ? `#${properties.adcode}` : 'rgba(114, 114, 114, 0.04)';
+      },
+      'province-stroke': 'rgba(114,114,114,0.3)',
+      'city-stroke': 'rgba(114,114,114,0.2)', // 中国地级市边界
+      'county-stroke': 'rgba(114,114,114,0.1)' // 中国区县边界
+    }
+    
+    // 创建省份图层
+    var disProvince;
+    function initPro() {
+      disProvince && disProvince.setMap(null);
+      disProvince = new AMap.DistrictLayer.Province({
+        zIndex: 12,
+        adcode: adcodes.map(v => v.adcode).filter(v => v !== 100000),
+        depth: 2,
+        styles
+      });
+      
+      disProvince.setMap(map);
+    }
+    
+    map.on('click', function (ev) {
+      var px = ev.pixel;
+      // 拾取所在位置的行政区
+      var props = disProvince.getDistrictByContainerPos(px);
+      
+      if (props) {
+        console.log(props)
+        setVisited(props.adcode)
+        setCount()
+        disProvince.setStyles(styles)
+      }
+    });
+    
+    const setVisited = (code) => {
+      const visited = JSON.parse(localStorage.getItem('egio-visited')) || []
+      if (visited.includes(code)) {
+        localStorage.setItem('egio-visited', JSON.stringify(visited.filter(v => v !== code)))
+      } else {
+        localStorage.setItem('egio-visited', JSON.stringify([...visited, code]))
+      }
+    }
+    
+    const setCount = () => {
+      const visited = JSON.parse(localStorage.getItem('egio-visited')) || [];
+      document.getElementsByTagName('h2')[0].innerText = `省：${_.uniq(visited.map(v => Math.floor(v / 10000))).length} / 34 地：${_.uniq(visited.map(v => Math.floor(v / 100))).length} / 333 县：${visited.length} / 2843`
+    }
+    
+    initPro();
+    setCount();
+    
+  </script>
+</body>
+</html>
