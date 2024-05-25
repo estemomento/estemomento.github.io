@@ -38,20 +38,21 @@
   <script>
     let currentPic = 16
     let interval = null
-    var SZ121_Radar = []
+    var imgArray = []
     window.onload = () => {
       (() => {
         // 设置图片部分
         const jsNode = document.createElement('script');
         jsNode.setAttribute('type', 'text/javascript');
-        jsNode.setAttribute('src', `https://weather.121.com.cn/data_cache/szImages/radar/radar_png.js?random=${Math.random()}&_=1590154646241`);
+        jsNode.setAttribute('src', `https://weather.121.com.cn/data_cache/contour/radar/radarContour.js?random=${Math.random()}&_=${new Date().valueOf()}`);
         document.getElementsByTagName('body')[0].appendChild(jsNode);
         jsNode.onload = () => {
-            SZ121_Radar = SZ121_Radar.map(src => {
-              const [prefix, no, timestamp] = src.split(/\/png|\.png\?m=/)
-              return { src, no: Number(no), timestamp }
-            })
-            setPic()
+          imgArray = SZ121_RadarContour.imgs.map(src => {
+            const [_, timestamp, latest] = src.split(/\/cappi\/.*\/.*\/20|\.png\?r=/)
+            return { src, timestamp, latest }
+          })
+          currentPic = imgArray[0]?.latest
+          setPic()
         }
         jsNode.onerror = () => {
           document.getElementById('error').style.zIndex = '10'
@@ -62,11 +63,11 @@
           }, 3000);
         }
         function setPic() {
-          const { timestamp } = SZ121_Radar.find(v => v.no === currentPic)
+          const { src, timestamp } = imgArray.find(v => v.timestamp === currentPic)
           groundOverlay.setOptions({
-            imageUrl: `http://weather.121.com.cn/data_cache/szImages/radar/png${currentPic}.png?m=${SZ121_Radar.find(v => v.no === currentPic).timestamp}`,
+            imageUrl: `http://weather.121.com.cn/data_cache/${src}`,
           })
-          document.getElementById('info').innerText = `${timestamp.substr(0, 4)}/${timestamp.substr(4, 2)}/${timestamp.substr(6, 2)} ${timestamp.substr(8, 2)}:${timestamp.substr(10, 2)}:${timestamp.substr(12, 2)}`
+          document.getElementById('info').innerText = `${timestamp.substr(0, 2)}/${timestamp.substr(2, 2)}/${timestamp.substr(4, 2)} ${timestamp.substr(6, 2)}:${timestamp.substr(8, 2)}`
         }
         // 初始化地图部分
         const map = new qq.maps.Map(document.getElementById("map"), {
@@ -82,20 +83,19 @@
         groundOverlay.setOptions({ map, opacity: 0.4, clickable: false })
         // 按钮事件部分
         window.prev = () => {
-          currentPic === 2 ? currentPic = 16 : currentPic--
+          const currentIndex = imgArray.findIndex(v => v.timestamp === currentPic)
+          currentPic = currentIndex === 0 ? imgArray[9].timestamp : imgArray[currentIndex - 1].timestamp
           setPic()
         }
         window.next = () => {
-          currentPic === 16 ? currentPic = 2 : currentPic++
+          const currentIndex = imgArray.findIndex(v => v.timestamp === currentPic)
+          currentPic = currentIndex === 9 ? imgArray[0].timestamp : imgArray[currentIndex + 1].timestamp
           setPic()
         }
         window.play = () => {
           if (!interval) {
-            document.getElementById('play').innerText = '⏸'
-            interval = setInterval(() => {
-              currentPic === 16 ? currentPic = 2 : currentPic++
-              setPic()
-            }, 1500)
+            document.getElementById('play').innerText = '⏸️'
+            interval = setInterval(next, 1500)
           } else {
             document.getElementById('play').innerText = '▶️'
             clearInterval(interval)
