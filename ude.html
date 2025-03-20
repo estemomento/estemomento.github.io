@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificación Académica - Universidad de Extremadura</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 40px;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #1d4289;
+            padding-bottom: 20px;
+        }
+        .logo {
+            max-width: 200px;
+            margin-bottom: 15px;
+        }
+        h1 {
+            color: #1d4289;
+            font-size: 24px;
+            margin: 10px 0;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 100px;
+            color: rgba(29, 66, 137, 0.05);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: justify;
+            line-height: 1.6;
+        }
+        .student-info {
+            margin: 30px 0;
+        }
+        .student-info p {
+            margin: 5px 0;
+        }
+        .certification {
+            margin: 40px 0;
+        }
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 80px;
+        }
+        .signature {
+            text-align: center;
+            width: 45%;
+        }
+        .signature-line {
+            width: 80%;
+            margin: 50px auto 10px;
+            border-bottom: 1px solid #333;
+        }
+        .footer {
+            margin-top: 60px;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .seal {
+            width: 120px;
+            height: 120px;
+            border: 2px solid #1d4289;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px auto;
+            color: #1d4289;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+        }
+        @media print {
+            body {
+                background-color: white;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="watermark">UEX</div>
+        
+        <div class="header">
+            <img src="/api/placeholder/200/100" alt="Logo Universidad de Extremadura" class="logo">
+            <h1>Universidad de Extremadura</h1>
+            <div class="subtitle">Secretaría General Académica</div>
+            <div class="subtitle">Certificación Académica Oficial</div>
+        </div>
+        
+        <div class="content">
+            <p>D./Dña. <strong>Juan Antonio Velázquez Zamora</strong>, Secretario/a General de la Universidad de Extremadura,</p>
+            
+            <div class="certification">
+                <p><strong>CERTIFICA:</strong></p>
+                <p>Que D./Dña. <strong>Changyu Liu</strong>, con documento de identidad número <strong>E98452814</strong>, ha cursado estudios de <strong>doctorado</strong> en la Facultad/Escuela de <strong>Lingüísticas</strong> de esta Universidad, según consta en los archivos de esta Secretaría General.</p>
+                
+                <div class="student-info">
+                    <p><strong>Titulación:</strong>Doctorado</p>
+                    <p><strong>Plan de Estudios:</strong> LING001 - [2024-2026]</p>
+                    <p><strong>Fecha de inicio de estudios:</strong> 6 de junio 2024</p>
+                    <p><strong>Fecha de finalización de estudios:</strong> 1 de marzo 2026</p>
+                    <p><strong>Créditos superados:</strong> 120 ECTS</p>
+                </div>
+              
+                
+                     </div>
+            
+            
+            <div class="seal">
+                UNIVERSIDAD <br>DE <br>EXTREMADURA
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Este certificado no tendrá validez sin el sello oficial de la Universidad de Extremadura y las firmas correspondientes.</p>
+            <p>Documento verificable en: www.unex.es/verificacion - Código de verificación: [CÓDIGO ALFANUMÉRICO]</p>
+        </div>
+    </div>
+</body>
+</html>
