@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GA 36-2018 机动车号牌生成器 - HTML/CSS版本</title>
+  <style>
+    :root {
+      --md-sys-color-primary: #005ac1;
+      --md-sys-color-on-primary: #ffffff;
+      --md-sys-color-surface: #fdfbff;
+      --md-sys-color-surface-container: #f0f4f9;
+      --md-sys-color-outline: #747775;
+      --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+    
+    body {
+      font-family: 'Roboto', 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+      background-color: var(--md-sys-color-surface-container);
+      color: #1f1f1f;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 800px;
+      padding: 20px;
+    }
+    
+    header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin: 0;
+      color: var(--md-sys-color-primary);
+    }
+    
+    .subtitle {
+      font-size: 14px;
+      color: #555;
+      margin-top: 8px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--shadow-1);
+      margin-bottom: 20px;
+      transition: box-shadow 0.3s;
+    }
+    
+    .card:hover {
+      box-shadow: var(--shadow-2);
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Material Input Styles */
+    .input-group {
+      position: relative;
+      margin-bottom: 10px;
+    }
+    
+    label {
+      display: block;
+      font-size: 12px;
+      color: var(--md-sys-color-primary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--md-sys-color-outline);
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+      background: white;
+      transition: border-color 0.2s;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--md-sys-color-primary);
+      border-width: 2px;
+      padding: 11px 15px;
+    }
+    
+    /* Button */
+    .btn {
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: var(--shadow-1);
+      transition: background 0.2s, box-shadow 0.2s;
+      margin-top: 10px;
+    }
+    
+    .btn:active {
+      background-color: #004295;
+      box-shadow: none;
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      color: var(--md-sys-color-primary);
+      border: 1px solid var(--md-sys-color-outline);
+      margin-top: 10px;
+    }
+    
+    /* Preview Area */
+    .preview-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      background-color: #eeeeee;
+      border-radius: 8px;
+      padding: 20px;
+      overflow: hidden;
+    }
+    
+    /* Plate Container - Base styles */
+    .plate-container {
+      position: relative;
+      display: flex;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 100%;
+    }
+    
+    /* Plate Content - Flex container for characters */
+    .plate-content {
+      margin: 3px;
+      border: 3px solid;
+      border-radius: 8px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+      font-family: 'Arial Black', SimHei, STHeiti, 'Heiti SC', 'Arial', 'Helvetica', sans-serif;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+    }
+    
+    /* Individual character cell */
+    .plate-char {
+      flex: 1;
+      text-align: center;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      word-break: break-all;
+      background: transparent center / contain no-repeat;
+    }
+    
+    /* Separator dot */
+    .plate-dot {
+      width: 0.12em;
+      height: 0.12em;
+      border-radius: 50%;
+      margin: 0 0.2em;
+      flex: 0 0 auto;
+    }
+
+    .plate-dot-motor {
+      position: absolute;
+      top: 90px;
+      left: 315px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    
+    /* New Energy Logo (圆形) */
+    .plate-logo {
+      position: relative;
+      width: 1.5em;
+      height: 1.5em;
+      border-radius: 50%;
+      background-color: #FFFFFF;
+      border: 0.08em solid #CCCCCC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0.1em;
+      flex: 0 0 auto;
+    }
+    
+    .plate-logo-inner {
+      width: 0.8em;
+      height: 0.8em;
+      border-radius: 50%;
+      background-color: #00C853;
+    }
+    
+    /* Two-row layout for motorcycles */
+    .plate-content-motor {
+      flex: 1;
+      height: auto;
+      margin: 3px;
+      padding: 15px 22px;
+      border-radius: 8px;
+      border: 6px solid;
+      box-sizing: border-box;
+    }
+    
+    .plate-row {
+      width: 100%;
+    }
+    
+    .info-text {
+      font-size: 12px;
+      color: #666;
+      margin-top: 12px;
+      text-align: center;
+    }
+    
+    .citation {
+      font-size: 11px;
+      color: #888;
+      margin-top: 20px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+    
+    /* (已移除导出画布相关样式) */
+  </style>
+  <link rel="stylesheet" href="assets/plate/index.css">
+  <link rel="stylesheet" href="assets/plate/plate_std.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  
+  <div class="container">
+    <header>
+      <h1>机动车号牌生成器</h1>
+      <div class="subtitle">依据 GA 36-2018 标准绘制</div>
+    </header>
+    
+    <div class="card">
+      <div class="form-grid">
+        <div class="input-group">
+          <label for="plateType">号牌种类 (Classification)</label>
+          <select id="plateType" onchange="updatePlaceholder()">
+            <option value="small_blue">小型汽车 (蓝底白字)</option>
+            <option value="large_yellow">大型汽车 (黄底黑字)</option>
+            <option value="small_ne">小型新能源 (渐变绿)</option>
+            <option value="large_ne">大型新能源 (黄绿双拼)</option>
+            <option value="police">警用汽车 (白底黑字红警)</option>
+            <option value="embassy">使馆汽车 (黑底白字红使)</option>
+            <option value="consulate">领馆汽车 (黑底白字红领)</option>
+            <option value="hk_macau">港澳入出境 (黑底白字)</option>
+            <option value="coach">教练汽车 (黄底黑字)</option>
+            <option value="trailer">挂车 (黄底黑字)</option>
+            <option value="motor_yellow">普通摩托车 (黄底黑字)</option>
+            <option value="motor_blue">轻便摩托车 (蓝底白字)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="plateNumber">登记编号 (Registration Number)</label>
+          <input type="text" id="plateNumber" placeholder="京A·12345" value="京A·12345" style="text-transform: uppercase;">
+        </div>
+      </div>
+      <button class="btn" onclick="generatePlate()">生成号牌 (Generate)</button>
+      <button class="btn btn-outline" onclick="downloadPlate()">下载号牌 (Download PNG)</button>
+    </div>
+    
+      <div class="card">
+      <label>预览 (Preview)</label>
+      <div class="preview-area" id="plateContainer">
+        <!-- 号牌将在这里动态生成 -->
+      </div>
+      <div class="citation">
+        引用标准: GA 36-2018《中华人民共和国机动车号牌》 ICS 43.040.60
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // 定义各类号牌的技术参数 (GA 36-2018 第4章 & 5章)
+    const AREA_CODE = {
+      京: 'BJ',
+      沪: 'SH',
+      粤: 'GD'
+    }
+    // Chinese char → CSS class mapping (Unicode codepoints)
+    const CN_MAP = {
+      '京':'U4EAC','津':'U6D25','冀':'U5180','晋':'U664B','蒙':'U8499',
+      '辽':'U8FBD','吉':'U5409','黑':'U9ED1','沪':'U6CAA','苏':'U82CF',
+      '浙':'U6D59','皖':'U7696','闽':'U95FD','赣':'U8D63','鲁':'U9C81',
+      '豫':'U8C6B','鄂':'U9102','湘':'U6E58','粤':'U7CA4','桂':'U6842',
+      '琼':'U743C','渝':'U6E1D','川':'U5DDD','贵':'U8D35','云':'U4E91',
+      '藏':'U85CF','陕':'U9655','甘':'U7518','青':'U9752','宁':'U5B81',
+      '新':'U65B0','港':'U6E2F','澳':'U6FB3','使':'U4F7F','领':'U9886',
+      '学':'U5B66','警':'U8B66','挂':'U6302'
+    };
+    // Classify a character and return sprite CSS classes
+    function charSpriteClass(ch) {
+      if (CN_MAP[ch]) return 'std-cn cU' + CN_MAP[ch].slice(1);
+      if (/[A-Z]/.test(ch)) return 'std-alpha c' + ch;
+      if (/[0-9]/.test(ch)) return 'std-num c' + ch;
+      return null; // fallback: use text
+    }
+    const SPECS = {
+      small_blue: {
+        width: 440, height: 140, 
+        bg: '#003399', text: '#FFFFFF', border: '#FFFFFF', borderWidth: 3,
+        layout: 'standard', type: 'metal'
+      },
+      large_yellow: {
+        width: 440, height: 140, 
+        bg: '#FFCC00', text: '#000000', border: '#000000', 
+        layout: 'standard', type: 'metal'
+      },
+      small_ne: {
+        width: 480, height: 140, 
+        bgType: 'gradient_green', text: '#000000', border: '#000000',
+        layout: 'new_energy', type: 'metal'
+      },
+      large_ne: {
+        width: 480, height: 140, 
+        bgType: 'split_yellow_green', text: '#000000', border: '#000000',
+        layout: 'new_energy', type: 'metal'
+      },
+      police: {
+        width: 440, height: 140, 
+        bg: '#FFFFFF', text: '#000000', border: '#000000', 
+        specialText: '#FF0000',
+        layout: 'police', type: 'metal'
+      },
+      embassy: {
+        width: 440, height: 140, 
+        bg: '#000000', text: '#FFFFFF', border: '#FFFFFF',
+        specialText: '#FF0000',
+        layout: 'embassy', type: 'metal'
+      },
+      consulate: {
+        width: 440, height: 140, 
+        bg: '#000000', text: '#FFFFFF', border: '#FFFFFF',
+        specialText: '#FF0000',
+        layout: 'consulate', type: 'metal'
+      },
+      hk_macau: {
+        width: 440, height: 140, 
+        bg: '#000000', text: '#FFFFFF', border: '#FFFFFF',
+        layout: 'hk_macau', type: 'metal'
+      },
+      coach: {
+        width: 440, height: 140, 
+        bg: '#FFCC00', text: '#000000', border: '#000000',
+        layout: 'suffix_char', type: 'metal'
+      },
+      trailer: {
+        width: 440, height: 140,
+        bg: '#FFCC00', text: '#000000', border: '#000000',
+        layout: 'suffix_char', type: 'metal' 
+      },
+      motor_yellow: {
+        width: 220, height: 140, 
+        bg: '#FFCC00', text: '#000000', border: '#000000', borderWidth: 6,
+        layout: 'motor', type: 'metal'
+      },
+      motor_blue: {
+        width: 220, height: 140, 
+        bg: '#003399', text: '#FFFFFF', border: '#FFFFFF',
+        layout: 'motor', type: 'metal'
+      }
+    };
+    
+    function updatePlaceholder() {
+      const type = document.getElementById('plateType').value;
+      const input = document.getElementById('plateNumber');
+      
+      switch(type) {
+        case 'small_ne': input.value = "京A·D12345"; break;
+        case 'large_ne': input.value = "京A·12345D"; break;
+        case 'police': input.value = "京·A0006警"; break;
+        case 'embassy': input.value = "224·578使"; break;
+        case 'consulate': input.value = "沪A·1234领"; break;
+        case 'hk_macau': input.value = "粤Z·A123港"; break;
+        case 'trailer': input.value = "京A·1234挂"; break;
+        case 'coach': input.value = "京A·1234学"; break;
+        case 'motor_yellow': input.value = "粤K·2XB88"; break;
+        case 'motor_blue': input.value = "京A·12345"; break;
+        default: input.value = "京A·12345";
+      }
+      generatePlate();
+    }
+    
+    function generatePlate() {
+      const typeKey = document.getElementById('plateType').value;
+      const textRaw = document.getElementById('plateNumber').value.toUpperCase().trim();
+      const spec = SPECS[typeKey];
+      
+      // 清洁输入，移除点、斜杠、连字符、空格
+      let cleanText = textRaw.replace(/[·\.\/\-\s]/g, '');
+      
+      // 清空容器
+      const container = document.getElementById('plateContainer');
+      container.innerHTML = '';
+      
+      // 创建主容器
+      const plateContainer = document.createElement('div');
+      plateContainer.className = 'plate-container';
+      
+      // 设置尺寸（响应式）
+      const maxWidth = Math.min(window.innerWidth * 0.8, 660);
+      const aspectRatio = spec.width / spec.height;
+      const containerWidth = maxWidth;
+      const containerHeight = containerWidth / aspectRatio;
+      
+      plateContainer.style.width = containerWidth + 'px';
+      plateContainer.style.height = containerHeight + 'px';
+      plateContainer.style.backgroundColor = spec.bg;
+      plateContainer.style.borderColor = spec.border;
+      plateContainer.style.borderWidth = spec.borderWidth;
+      
+      // 处理渐变和分割背景
+      if (spec.bgType === 'gradient_green') {
+        plateContainer.style.backgroundImage = 'linear-gradient(90deg, #FFFFFF 0%, #F0F8F0 30%, #00C853 100%)';
+        plateContainer.style.backgroundColor = 'transparent';
+      } else if (spec.bgType === 'split_yellow_green') {
+        plateContainer.style.background = 'linear-gradient(90deg, #FFCC00 0%, #FFCC00 27%, #00C853 27%, #00C853 100%)';
+        plateContainer.style.backgroundColor = 'transparent';
+      }
+      
+      // 创建内容区域
+      const plateContent = createPlateContent(spec, cleanText, containerHeight);
+      plateContainer.appendChild(plateContent);
+      
+      container.appendChild(plateContainer);
+      
+      // 保存当前状态以供下载使用
+      window.currentPlateSpec = spec;
+      window.currentPlateCleanText = cleanText;
+    }
+    
+    function createPlateContent(spec, cleanText, containerHeight) {
+      const plateContent = document.createElement('div');
+      
+      // 摩托车特殊处理（两行布局）
+      if (spec.layout === 'motor') {
+        plateContent.className = 'plate-content-motor';
+        plateContent.style.fontSize = (containerHeight * 0.3) + 'px';
+        plateContent.style.color = spec.text;
+        plateContent.style.borderColor = spec.border;
+
+        const row1 = cleanText.substring(0, 2);
+        const row2 = cleanText.substring(2);
+        
+        const row1Div = document.createElement('div');
+        row1Div.className = 'plate-row';
+        for (let i = 0; i < row1.length; i++) {
+          const charDiv = document.createElement('div');
+          charDiv.className = `plate-char moto-area a${i ? row1[i] : AREA_CODE[row1[i]]}`;
+          // charDiv.textContent = row1[i];
+          charDiv.style.color = spec.text;
+          row1Div.appendChild(charDiv);
+        }
+
+        const dotDiv = document.createElement('div');
+          dotDiv.className = 'plate-dot-motor';
+          dotDiv.style.backgroundColor = spec.text;
+          plateContent.appendChild(dotDiv);
+        
+        const row2Div = document.createElement('div');
+        row2Div.className = 'plate-row';
+        for (let i = 0; i < row2.length; i++) {
+          const charDiv = document.createElement('div');
+          charDiv.className = `plate-char moto-serie ${Number(row2[i]) > -1 ? 'moto-serie-num' : 'moto-serie-char'} s${row2[i]}`;
+          charDiv.style.color = spec.text;
+          row2Div.appendChild(charDiv);
+        }
+        
+        plateContent.appendChild(row1Div);
+        plateContent.appendChild(row2Div);
+      } else {
+        // 单行布局
+        plateContent.className = 'plate-content';
+        plateContent.style.fontSize = (containerHeight * 0.55) + 'px';
+        plateContent.style.color = spec.text;
+        
+        // 分解文本为左右两部分
+        let leftPart = "";
+        let rightPart = "";
+        
+        if (spec.layout === 'embassy') {
+          // 格式 123·456使
+          leftPart = cleanText.substring(0, 3);
+          rightPart = cleanText.substring(3);
+        } else if (spec.layout === 'consulate' || spec.layout === 'hk_macau') {
+          // 格式 省A·1234领 或 粤Z·A123港
+          leftPart = cleanText.substring(0, 2);
+          rightPart = cleanText.substring(2);
+        } else {
+          // 标准: 京A·xxxxx
+          leftPart = cleanText.substring(0, 2);
+          rightPart = cleanText.substring(2);
+        }
+        
+        // 绘制左侧字符
+        for (let i = 0; i < leftPart.length; i++) {
+          const charDiv = document.createElement('div');
+          const sprCls = charSpriteClass(leftPart[i]);
+          if (sprCls) {
+            charDiv.className = 'plate-char ' + sprCls;
+            charDiv.style.backgroundColor = spec.text;
+          } else {
+            charDiv.className = 'plate-char';
+            charDiv.textContent = leftPart[i];
+            charDiv.style.color = spec.text;
+          }
+          plateContent.appendChild(charDiv);
+        }
+        
+        // 绘制分隔符或Logo
+        if (spec.layout === 'new_energy') {
+          const logoDiv = document.createElement('div');
+          logoDiv.className = 'plate-logo';
+          const logoInner = document.createElement('div');
+          logoInner.className = 'plate-logo-inner';
+          logoDiv.appendChild(logoInner);
+          plateContent.appendChild(logoDiv);
+        } else {
+          const dotDiv = document.createElement('div');
+          dotDiv.className = 'plate-dot';
+          dotDiv.style.backgroundColor = spec.text;
+          plateContent.appendChild(dotDiv);
+        }
+        
+        // 绘制右侧字符
+        for (let i = 0; i < rightPart.length; i++) {
+          const char = rightPart[i];
+          const charDiv = document.createElement('div');
+
+          // 特殊字符颜色处理
+          let charColor = spec.text;
+          if (spec.layout === 'police' && char === '警') {
+            charColor = '#FF0000';
+          } else if (spec.layout === 'embassy' && char === '使') {
+            charColor = '#FF0000';
+          } else if (spec.layout === 'consulate' && char === '领') {
+            charColor = '#FF0000';
+          }
+
+          const sprCls = charSpriteClass(char);
+          if (sprCls) {
+            charDiv.className = 'plate-char ' + sprCls;
+            charDiv.style.backgroundColor = charColor;
+          } else {
+            charDiv.className = 'plate-char';
+            charDiv.textContent = char;
+            charDiv.style.color = charColor;
+          }
+          plateContent.appendChild(charDiv);
+        }
+      }
+      
+      return plateContent;
+    }
+    
+    
+    
+    // 初始化
+    window.onload = function() {
+      updatePlaceholder();
+      generatePlate();
+
+      // 实时预览：输入时自动重新生成
+      document.getElementById('plateNumber').addEventListener('input', generatePlate);
+    };
+
+    function downloadPlate() {
+      const plateEl = document.querySelector('.plate-container');
+      if (!plateEl) return;
+
+      html2canvas(plateEl, { scale: 3, backgroundColor: null }).then(function(canvas) {
+        const link = document.createElement('a');
+        link.download = 'plate.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,217 @@
+.plate-char.moto-area:first-child {
+  position: absolute;
+  top: 30px;
+  left: 135px;
+  width: 150px;
+  height: 150px;
+}
+
+.plate-char.moto-area:last-child {
+  position: absolute;
+  top: 30px;
+  right: 135px;
+  width: 150px;
+  height: 150px;
+}
+
+.plate-char.moto-serie:nth-child(1) {
+  position: absolute;
+  bottom: 30px;
+  left: 45px;
+  width: 90px;
+  height: 180px;
+}
+
+.plate-char.moto-serie:nth-child(2) {
+  position: absolute;
+  bottom: 30px;
+  left: 165px;
+  width: 90px;
+  height: 180px;
+}
+
+.plate-char.moto-serie:nth-child(3) {
+  position: absolute;
+  bottom: 30px;
+  left: 285px;
+  width: 90px;
+  height: 180px;
+}
+
+.plate-char.moto-serie:nth-child(4) {
+  position: absolute;
+  bottom: 30px;
+  left: 405px;
+  width: 90px;
+  height: 180px;
+}
+
+.plate-char.moto-serie:nth-child(5) {
+  position: absolute;
+  bottom: 30px;
+  left: 525px;
+  width: 90px;
+  height: 180px;
+}
+
+.moto-serie-char {
+  background-size: 1170px;
+  background-image: url(moto_serie_ch.svg);
+}
+
+.moto-serie-num {
+  background-size: 1040px;
+  background-image: url(moto_serie_num.svg);
+}
+
+.moto-area.aBJ {
+  background-image: url(moto_area_BJ.svg);
+}
+
+.moto-area.aSH {
+  background-image: url(moto_area_SH.svg);
+}
+
+.moto-area.aGD {
+  background-image: url(moto_area_GD.svg);
+}
+
+.moto-area.aK {
+  background-image: url(moto_area_K.svg);
+}
+
+.moto-serie.sA {
+  background-position: 0 0;
+}
+
+.moto-serie.sB {
+  background-position: -99px 0;
+}
+
+.moto-serie.sC {
+  background-position: -197px 0;
+}
+
+.moto-serie.sD {
+  background-position: -295px 0;
+}
+
+.moto-serie.sE {
+  background-position: -392px 0;
+}
+
+.moto-serie.sF {
+  background-position: -498px 0;
+}
+
+.moto-serie.sG {
+  background-position: -597px 0;
+}
+
+.moto-serie.sH {
+  background-position: -693px 0;
+}
+
+.moto-serie.sJ {
+  background-position: -792px 0;
+}
+
+.moto-serie.sK {
+  background-position: -887px 0;
+}
+
+.moto-serie.sL {
+  background-position: -985px 0;
+}
+
+.moto-serie.sM {
+  background-position: -1082px 0;
+}
+
+.moto-serie.sN {
+  background-position: -3px -200px;
+}
+
+.moto-serie.sP {
+  background-position: -99px -200px;
+}
+
+.moto-serie.sQ {
+  background-position: -197px -200px;
+}
+
+.moto-serie.sR {
+  background-position: -295px -200px;
+}
+
+.moto-serie.sS {
+  background-position: -392px -200px;
+}
+
+.moto-serie.sT {
+  background-position: -496px -200px;
+}
+
+.moto-serie.sU {
+  background-position: -593px -200px;
+}
+
+.moto-serie.sV {
+  background-position: -689px -200px;
+}
+
+.moto-serie.sW {
+  background-position: -789px -200px;
+}
+
+.moto-serie.sX {
+  background-position: -884px -200px;
+}
+
+.moto-serie.sY {
+  background-position: -981px -200px;
+}
+
+.moto-serie.sZ {
+  background-position: -1078px -200px;
+}
+
+.moto-serie.s1 {
+  background-position: 35px 0;
+}
+
+.moto-serie.s2 {
+  background-position: -78px 0;
+}
+
+.moto-serie.s3 {
+  background-position: -185px 0;
+}
+
+.moto-serie.s4 {
+  background-position: -295px 0;
+}
+
+.moto-serie.s5 {
+  background-position: -401px 0;
+}
+
+.moto-serie.s6 {
+  background-position: -506px 0;
+}
+
+.moto-serie.s7 {
+  background-position: -614px 1px;
+}
+
+.moto-serie.s8 {
+  background-position: -734px 0;
+}
+
+.moto-serie.s9 {
+  background-position: -840px 0;
+}
+
+.moto-serie.s0 {
+  background-position: -950px 0;
+}

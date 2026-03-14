@@ -1,0 +1,106 @@
+/* Standard plate letter sprite (mask-based for color control) */
+.plate-char.std-alpha {
+  -webkit-mask-image: url(plate_alpha.svg);
+  mask-image: url(plate_alpha.svg);
+  -webkit-mask-size: 1300% 200%;
+  mask-size: 1300% 200%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.plate-char.std-alpha.cA { -webkit-mask-position: 0% 0%; mask-position: 0% 0%; }
+.plate-char.std-alpha.cB { -webkit-mask-position: 8.3333% 0%; mask-position: 8.3333% 0%; }
+.plate-char.std-alpha.cC { -webkit-mask-position: 16.6667% 0%; mask-position: 16.6667% 0%; }
+.plate-char.std-alpha.cD { -webkit-mask-position: 25.0000% 0%; mask-position: 25.0000% 0%; }
+.plate-char.std-alpha.cE { -webkit-mask-position: 33.3333% 0%; mask-position: 33.3333% 0%; }
+.plate-char.std-alpha.cF { -webkit-mask-position: 41.6667% 0%; mask-position: 41.6667% 0%; }
+.plate-char.std-alpha.cG { -webkit-mask-position: 50.0000% 0%; mask-position: 50.0000% 0%; }
+.plate-char.std-alpha.cH { -webkit-mask-position: 58.3333% 0%; mask-position: 58.3333% 0%; }
+.plate-char.std-alpha.cI { -webkit-mask-position: 66.6667% 0%; mask-position: 66.6667% 0%; }
+.plate-char.std-alpha.cJ { -webkit-mask-position: 75.0000% 0%; mask-position: 75.0000% 0%; }
+.plate-char.std-alpha.cK { -webkit-mask-position: 83.3333% 0%; mask-position: 83.3333% 0%; }
+.plate-char.std-alpha.cL { -webkit-mask-position: 91.6667% 0%; mask-position: 91.6667% 0%; }
+.plate-char.std-alpha.cM { -webkit-mask-position: 100.0000% 0%; mask-position: 100.0000% 0%; }
+.plate-char.std-alpha.cN { -webkit-mask-position: 0% 100.0000%; mask-position: 0% 100.0000%; }
+.plate-char.std-alpha.cO { -webkit-mask-position: 8.3333% 100.0000%; mask-position: 8.3333% 100.0000%; }
+.plate-char.std-alpha.cP { -webkit-mask-position: 16.6667% 100.0000%; mask-position: 16.6667% 100.0000%; }
+.plate-char.std-alpha.cQ { -webkit-mask-position: 25.0000% 100.0000%; mask-position: 25.0000% 100.0000%; }
+.plate-char.std-alpha.cR { -webkit-mask-position: 33.3333% 100.0000%; mask-position: 33.3333% 100.0000%; }
+.plate-char.std-alpha.cS { -webkit-mask-position: 41.6667% 100.0000%; mask-position: 41.6667% 100.0000%; }
+.plate-char.std-alpha.cT { -webkit-mask-position: 50.0000% 100.0000%; mask-position: 50.0000% 100.0000%; }
+.plate-char.std-alpha.cU { -webkit-mask-position: 58.3333% 100.0000%; mask-position: 58.3333% 100.0000%; }
+.plate-char.std-alpha.cV { -webkit-mask-position: 66.6667% 100.0000%; mask-position: 66.6667% 100.0000%; }
+.plate-char.std-alpha.cW { -webkit-mask-position: 75.0000% 100.0000%; mask-position: 75.0000% 100.0000%; }
+.plate-char.std-alpha.cX { -webkit-mask-position: 83.3333% 100.0000%; mask-position: 83.3333% 100.0000%; }
+.plate-char.std-alpha.cY { -webkit-mask-position: 91.6667% 100.0000%; mask-position: 91.6667% 100.0000%; }
+.plate-char.std-alpha.cZ { -webkit-mask-position: 100.0000% 100.0000%; mask-position: 100.0000% 100.0000%; }
+
+/* Standard plate digit sprite */
+.plate-char.std-num {
+  -webkit-mask-image: url(plate_num.svg);
+  mask-image: url(plate_num.svg);
+  -webkit-mask-size: 1000% 100%;
+  mask-size: 1000% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.plate-char.std-num.c0 { -webkit-mask-position: 0% 0%; mask-position: 0% 0%; }
+.plate-char.std-num.c1 { -webkit-mask-position: 11.1111% 0%; mask-position: 11.1111% 0%; }
+.plate-char.std-num.c2 { -webkit-mask-position: 22.2222% 0%; mask-position: 22.2222% 0%; }
+.plate-char.std-num.c3 { -webkit-mask-position: 33.3333% 0%; mask-position: 33.3333% 0%; }
+.plate-char.std-num.c4 { -webkit-mask-position: 44.4444% 0%; mask-position: 44.4444% 0%; }
+.plate-char.std-num.c5 { -webkit-mask-position: 55.5556% 0%; mask-position: 55.5556% 0%; }
+.plate-char.std-num.c6 { -webkit-mask-position: 66.6667% 0%; mask-position: 66.6667% 0%; }
+.plate-char.std-num.c7 { -webkit-mask-position: 77.7778% 0%; mask-position: 77.7778% 0%; }
+.plate-char.std-num.c8 { -webkit-mask-position: 88.8889% 0%; mask-position: 88.8889% 0%; }
+.plate-char.std-num.c9 { -webkit-mask-position: 100.0000% 0%; mask-position: 100.0000% 0%; }
+
+/* Standard plate Chinese character sprite */
+.plate-char.std-cn {
+  -webkit-mask-image: url(plate_cn.svg);
+  mask-image: url(plate_cn.svg);
+  -webkit-mask-size: 1000% 400%;
+  mask-size: 1000% 400%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.plate-char.std-cn.cU4EAC { -webkit-mask-position: 0% 0%; mask-position: 0% 0%; } /* 京 */
+.plate-char.std-cn.cU6D25 { -webkit-mask-position: 11.1111% 0%; mask-position: 11.1111% 0%; } /* 津 */
+.plate-char.std-cn.cU5180 { -webkit-mask-position: 22.2222% 0%; mask-position: 22.2222% 0%; } /* 冀 */
+.plate-char.std-cn.cU664B { -webkit-mask-position: 33.3333% 0%; mask-position: 33.3333% 0%; } /* 晋 */
+.plate-char.std-cn.cU8499 { -webkit-mask-position: 44.4444% 0%; mask-position: 44.4444% 0%; } /* 蒙 */
+.plate-char.std-cn.cU8FBD { -webkit-mask-position: 55.5556% 0%; mask-position: 55.5556% 0%; } /* 辽 */
+.plate-char.std-cn.cU5409 { -webkit-mask-position: 66.6667% 0%; mask-position: 66.6667% 0%; } /* 吉 */
+.plate-char.std-cn.cU9ED1 { -webkit-mask-position: 77.7778% 0%; mask-position: 77.7778% 0%; } /* 黑 */
+.plate-char.std-cn.cU6CAA { -webkit-mask-position: 88.8889% 0%; mask-position: 88.8889% 0%; } /* 沪 */
+.plate-char.std-cn.cU82CF { -webkit-mask-position: 100.0000% 0%; mask-position: 100.0000% 0%; } /* 苏 */
+.plate-char.std-cn.cU6D59 { -webkit-mask-position: 0% 33.3333%; mask-position: 0% 33.3333%; } /* 浙 */
+.plate-char.std-cn.cU7696 { -webkit-mask-position: 11.1111% 33.3333%; mask-position: 11.1111% 33.3333%; } /* 皖 */
+.plate-char.std-cn.cU95FD { -webkit-mask-position: 22.2222% 33.3333%; mask-position: 22.2222% 33.3333%; } /* 闽 */
+.plate-char.std-cn.cU8D63 { -webkit-mask-position: 33.3333% 33.3333%; mask-position: 33.3333% 33.3333%; } /* 赣 */
+.plate-char.std-cn.cU9C81 { -webkit-mask-position: 44.4444% 33.3333%; mask-position: 44.4444% 33.3333%; } /* 鲁 */
+.plate-char.std-cn.cU8C6B { -webkit-mask-position: 55.5556% 33.3333%; mask-position: 55.5556% 33.3333%; } /* 豫 */
+.plate-char.std-cn.cU9102 { -webkit-mask-position: 66.6667% 33.3333%; mask-position: 66.6667% 33.3333%; } /* 鄂 */
+.plate-char.std-cn.cU6E58 { -webkit-mask-position: 77.7778% 33.3333%; mask-position: 77.7778% 33.3333%; } /* 湘 */
+.plate-char.std-cn.cU7CA4 { -webkit-mask-position: 88.8889% 33.3333%; mask-position: 88.8889% 33.3333%; } /* 粤 */
+.plate-char.std-cn.cU6842 { -webkit-mask-position: 100.0000% 33.3333%; mask-position: 100.0000% 33.3333%; } /* 桂 */
+.plate-char.std-cn.cU743C { -webkit-mask-position: 0% 66.6667%; mask-position: 0% 66.6667%; } /* 琼 */
+.plate-char.std-cn.cU6E1D { -webkit-mask-position: 11.1111% 66.6667%; mask-position: 11.1111% 66.6667%; } /* 渝 */
+.plate-char.std-cn.cU5DDD { -webkit-mask-position: 22.2222% 66.6667%; mask-position: 22.2222% 66.6667%; } /* 川 */
+.plate-char.std-cn.cU8D35 { -webkit-mask-position: 33.3333% 66.6667%; mask-position: 33.3333% 66.6667%; } /* 贵 */
+.plate-char.std-cn.cU4E91 { -webkit-mask-position: 44.4444% 66.6667%; mask-position: 44.4444% 66.6667%; } /* 云 */
+.plate-char.std-cn.cU85CF { -webkit-mask-position: 55.5556% 66.6667%; mask-position: 55.5556% 66.6667%; } /* 藏 */
+.plate-char.std-cn.cU9655 { -webkit-mask-position: 66.6667% 66.6667%; mask-position: 66.6667% 66.6667%; } /* 陕 */
+.plate-char.std-cn.cU7518 { -webkit-mask-position: 77.7778% 66.6667%; mask-position: 77.7778% 66.6667%; } /* 甘 */
+.plate-char.std-cn.cU9752 { -webkit-mask-position: 88.8889% 66.6667%; mask-position: 88.8889% 66.6667%; } /* 青 */
+.plate-char.std-cn.cU5B81 { -webkit-mask-position: 100.0000% 66.6667%; mask-position: 100.0000% 66.6667%; } /* 宁 */
+.plate-char.std-cn.cU65B0 { -webkit-mask-position: 0% 100.0000%; mask-position: 0% 100.0000%; } /* 新 */
+.plate-char.std-cn.cU6E2F { -webkit-mask-position: 11.1111% 100.0000%; mask-position: 11.1111% 100.0000%; } /* 港 */
+.plate-char.std-cn.cU6FB3 { -webkit-mask-position: 22.2222% 100.0000%; mask-position: 22.2222% 100.0000%; } /* 澳 */
+.plate-char.std-cn.cU4F7F { -webkit-mask-position: 33.3333% 100.0000%; mask-position: 33.3333% 100.0000%; } /* 使 */
+.plate-char.std-cn.cU9886 { -webkit-mask-position: 44.4444% 100.0000%; mask-position: 44.4444% 100.0000%; } /* 领 */
+.plate-char.std-cn.cU5B66 { -webkit-mask-position: 55.5556% 100.0000%; mask-position: 55.5556% 100.0000%; } /* 学 */
+.plate-char.std-cn.cU8B66 { -webkit-mask-position: 66.6667% 100.0000%; mask-position: 66.6667% 100.0000%; } /* 警 */
+.plate-char.std-cn.cU6302 { -webkit-mask-position: 77.7778% 100.0000%; mask-position: 77.7778% 100.0000%; } /* 挂 */
