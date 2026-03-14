@@ -167,32 +167,28 @@
       flex: 1;
       display: flex;
       align-items: center;
+      justify-content: center;
       box-sizing: border-box;
       overflow: hidden;
       position: relative;
       font-family: 'Arial Black', SimHei, STHeiti, 'Heiti SC', 'Arial', 'Helvetica', sans-serif;
       font-weight: bold;
-      letter-spacing: 0.08em;
     }
     
     /* Individual character cell */
     .plate-char {
-      flex: 1;
+      flex: 0 0 auto;
       text-align: center;
-      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       word-break: break-all;
       background: transparent center / contain no-repeat;
     }
-    
+
     /* Separator dot */
     .plate-dot {
-      width: 0.12em;
-      height: 0.12em;
       border-radius: 50%;
-      margin: 0 0.2em;
       flex: 0 0 auto;
     }
 
@@ -337,57 +333,67 @@
     }
     const SPECS = {
       small_blue: {
-        width: 440, height: 140, 
+        width: 440, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
         bg: '#003399', text: '#FFFFFF', border: '#FFFFFF', borderWidth: 3,
         layout: 'standard', type: 'metal'
       },
       large_yellow: {
-        width: 440, height: 140, 
-        bg: '#FFCC00', text: '#000000', border: '#000000', 
+        width: 440, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
+        bg: '#FFCC00', text: '#000000', border: '#000000',
         layout: 'standard', type: 'metal'
       },
       small_ne: {
-        width: 480, height: 140, 
+        width: 480, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
         bgType: 'gradient_green', text: '#000000', border: '#000000',
         layout: 'new_energy', type: 'metal'
       },
       large_ne: {
-        width: 480, height: 140, 
+        width: 480, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
         bgType: 'split_yellow_green', text: '#000000', border: '#000000',
         layout: 'new_energy', type: 'metal'
       },
       police: {
-        width: 440, height: 140, 
-        bg: '#FFFFFF', text: '#000000', border: '#000000', 
+        width: 440, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
+        bg: '#FFFFFF', text: '#000000', border: '#000000',
         specialText: '#FF0000',
         layout: 'police', type: 'metal'
       },
       embassy: {
-        width: 440, height: 140, 
+        width: 440, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
         bg: '#000000', text: '#FFFFFF', border: '#FFFFFF',
         specialText: '#FF0000',
         layout: 'embassy', type: 'metal'
       },
       consulate: {
-        width: 440, height: 140, 
+        width: 440, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
         bg: '#000000', text: '#FFFFFF', border: '#FFFFFF',
         specialText: '#FF0000',
         layout: 'consulate', type: 'metal'
       },
       hk_macau: {
-        width: 440, height: 140, 
+        width: 440, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
         bg: '#000000', text: '#FFFFFF', border: '#FFFFFF',
         layout: 'hk_macau', type: 'metal'
       },
       coach: {
-        width: 440, height: 140, 
+        width: 440, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
         bg: '#FFCC00', text: '#000000', border: '#000000',
         layout: 'suffix_char', type: 'metal'
       },
       trailer: {
         width: 440, height: 140,
+        charW: 45, charH: 90, gap: 12, marginX: 15, marginY: 25, dotW: 10,
         bg: '#FFCC00', text: '#000000', border: '#000000',
-        layout: 'suffix_char', type: 'metal' 
+        layout: 'suffix_char', type: 'metal'
       },
       motor_yellow: {
         width: 220, height: 140, 
@@ -459,7 +465,7 @@
       }
       
       // 创建内容区域
-      const plateContent = createPlateContent(spec, cleanText, containerHeight);
+      const plateContent = createPlateContent(spec, cleanText, containerWidth, containerHeight);
       plateContainer.appendChild(plateContent);
       
       container.appendChild(plateContainer);
@@ -469,9 +475,9 @@
       window.currentPlateCleanText = cleanText;
     }
     
-    function createPlateContent(spec, cleanText, containerHeight) {
+    function createPlateContent(spec, cleanText, containerWidth, containerHeight) {
       const plateContent = document.createElement('div');
-      
+
       // 摩托车特殊处理（两行布局）
       if (spec.layout === 'motor') {
         plateContent.className = 'plate-content-motor';
@@ -509,48 +515,67 @@
         plateContent.appendChild(row1Div);
         plateContent.appendChild(row2Div);
       } else {
-        // 单行布局
+        // 单行布局 — 按 mm 比例精确定位
         plateContent.className = 'plate-content';
-        plateContent.style.fontSize = (containerHeight * 0.55) + 'px';
         plateContent.style.color = spec.text;
-        
+
+        const s = containerWidth / spec.width; // px per mm
+        const charW = (spec.charW || 45) * s;
+        const charH = (spec.charH || 90) * s;
+        const gap   = (spec.gap   || 12) * s;
+        const mx    = (spec.marginX || 15) * s;
+        const my    = (spec.marginY || 25) * s;
+        const dotW  = (spec.dotW  || 10) * s;
+        const fontSize = charH * 0.95;
+
+        plateContent.style.padding = my + 'px ' + mx + 'px';
+        plateContent.style.gap = gap + 'px';
+        plateContent.style.fontSize = fontSize + 'px';
+        plateContent.style.borderColor = spec.border;
+
         // 分解文本为左右两部分
         let leftPart = "";
         let rightPart = "";
-        
+
         if (spec.layout === 'embassy') {
-          // 格式 123·456使
           leftPart = cleanText.substring(0, 3);
           rightPart = cleanText.substring(3);
         } else if (spec.layout === 'consulate' || spec.layout === 'hk_macau') {
-          // 格式 省A·1234领 或 粤Z·A123港
           leftPart = cleanText.substring(0, 2);
           rightPart = cleanText.substring(2);
         } else {
-          // 标准: 京A·xxxxx
           leftPart = cleanText.substring(0, 2);
           rightPart = cleanText.substring(2);
         }
-        
+
+        // helper: 创建一个字符 div
+        function makeChar(ch, color) {
+          const d = document.createElement('div');
+          const sprCls = charSpriteClass(ch);
+          if (sprCls) {
+            d.className = 'plate-char ' + sprCls;
+            d.style.backgroundColor = color;
+          } else {
+            d.className = 'plate-char';
+            d.textContent = ch;
+            d.style.color = color;
+          }
+          d.style.width  = charW + 'px';
+          d.style.height = charH + 'px';
+          return d;
+        }
+
         // 绘制左侧字符
         for (let i = 0; i < leftPart.length; i++) {
-          const charDiv = document.createElement('div');
-          const sprCls = charSpriteClass(leftPart[i]);
-          if (sprCls) {
-            charDiv.className = 'plate-char ' + sprCls;
-            charDiv.style.backgroundColor = spec.text;
-          } else {
-            charDiv.className = 'plate-char';
-            charDiv.textContent = leftPart[i];
-            charDiv.style.color = spec.text;
-          }
-          plateContent.appendChild(charDiv);
+          plateContent.appendChild(makeChar(leftPart[i], spec.text));
         }
-        
-        // 绘制分隔符或Logo
+
+        // 绘制分隔符或 Logo（宽度填满剩余空间）
         if (spec.layout === 'new_energy') {
           const logoDiv = document.createElement('div');
           logoDiv.className = 'plate-logo';
+          logoDiv.style.width = dotW + 'px';
+          logoDiv.style.height = dotW + 'px';
           const logoInner = document.createElement('div');
           logoInner.className = 'plate-logo-inner';
           logoDiv.appendChild(logoInner);
@@ -558,35 +583,20 @@
         } else {
           const dotDiv = document.createElement('div');
           dotDiv.className = 'plate-dot';
+          dotDiv.style.width = dotW + 'px';
+          dotDiv.style.height = dotW + 'px';
           dotDiv.style.backgroundColor = spec.text;
           plateContent.appendChild(dotDiv);
         }
-        
+
         // 绘制右侧字符
         for (let i = 0; i < rightPart.length; i++) {
-          const char = rightPart[i];
-          const charDiv = document.createElement('div');
-
-          // 特殊字符颜色处理
-          let charColor = spec.text;
-          if (spec.layout === 'police' && char === '警') {
-            charColor = '#FF0000';
-          } else if (spec.layout === 'embassy' && char === '使') {
-            charColor = '#FF0000';
-          } else if (spec.layout === 'consulate' && char === '领') {
-            charColor = '#FF0000';
-          }
-
-          const sprCls = charSpriteClass(char);
-          if (sprCls) {
-            charDiv.className = 'plate-char ' + sprCls;
-            charDiv.style.backgroundColor = charColor;
-          } else {
-            charDiv.className = 'plate-char';
-            charDiv.textContent = char;
-            charDiv.style.color = charColor;
-          }
-          plateContent.appendChild(charDiv);
+          const ch = rightPart[i];
+          let color = spec.text;
+          if (spec.layout === 'police' && ch === '警') color = '#FF0000';
+          else if (spec.layout === 'embassy' && ch === '使') color = '#FF0000';
+          else if (spec.layout === 'consulate' && ch === '领') color = '#FF0000';
+          plateContent.appendChild(makeChar(ch, color));
         }
       }
       
