@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" width="1200" height="200">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200" width="1000" height="200">
   <!-- 0 -->
-  <g transform="translate(11.0,5.0) scale(1.0326)">
+  <g transform="translate(0,0) scale(1.052632,1.086957)">
     <g transform="translate(0.000000,184.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M438 1789 c-170 -27 -293 -119 -359 -269 l-24 -55 -3 -527 c-2 -450
@@ -14,7 +14,7 @@ fill="#000000" stroke="none">
 </g>
   </g>
   <!-- 1 -->
-  <g transform="translate(163.8,5.0) scale(1.0106)">
+  <g transform="translate(132.98,0) scale(1.063830)">
     <g transform="translate(0.000000,188.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M80 1823 c0 -21 -4 -218 -10 -438 -5 -220 -12 -601 -16 -847 l-6
@@ -22,7 +22,7 @@ fill="#000000" stroke="none">
 </g>
   </g>
   <!-- 2 -->
-  <g transform="translate(249.5,5.0) scale(1.0106)">
+  <g transform="translate(200,0) scale(1.000000,1.063830)">
     <g transform="translate(0.000000,188.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M413 1856 c-132 -32 -238 -118 -297 -239 -36 -72 -60 -154 -47 -161
@@ -35,7 +35,7 @@ c-46 2 -105 3 -133 4 -27 1 -135 2 -239 3 -158 1 -187 3 -183 15 3 8 73 110
 </g>
   </g>
   <!-- 3 -->
-  <g transform="translate(370.5,5.0) scale(1.0106)">
+  <g transform="translate(300,0) scale(1.020408,1.063830)">
     <g transform="translate(0.000000,188.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M74 1855 c-2 -5 -5 -55 -6 -110 l-3 -100 225 -3 c124 -1 245 -3 269
@@ -49,7 +49,7 @@ fill="#000000" stroke="none">
 </g>
   </g>
   <!-- 4 -->
-  <g transform="translate(489.5,5.0) scale(1.0106)">
+  <g transform="translate(400,0) scale(1.000000,1.063830)">
     <g transform="translate(0.000000,188.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M595 1753 c-32 -71 -168 -366 -302 -658 l-243 -529 0 -93 0 -93 290
@@ -60,7 +60,7 @@ c-91 0 -165 2 -165 5 0 2 54 122 121 267 66 145 139 305 162 355 23 51 43 93
 </g>
   </g>
   <!-- 5 -->
-  <g transform="translate(613.5,5.0) scale(1.0106)">
+  <g transform="translate(500,0) scale(1.086957,1.063830)">
     <g transform="translate(0.000000,188.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M80 1862 c-6 -2 -10 -159 -10 -442 l0 -438 43 -16 c23 -8 67 -25 97
@@ -74,7 +74,7 @@ fill="#000000" stroke="none">
 </g>
   </g>
   <!-- 6 -->
-  <g transform="translate(728.9,5.0) scale(1.0326)">
+  <g transform="translate(600,0) scale(1.010101,1.086957)">
     <g transform="translate(0.000000,184.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M512 1713 c-310 -311 -513 -768 -512 -1155 1 -246 92 -416 271 -501
@@ -87,7 +87,7 @@ c80 188 193 358 336 505 54 55 98 104 98 107 0 6 -166 107 -176 107 -2 0 -35
 </g>
   </g>
   <!-- 7 -->
-  <g transform="translate(848.4,5.0) scale(1.0326)">
+  <g transform="translate(700,0) scale(1.000000,1.086957)">
     <g transform="translate(0.000000,184.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M50 1680 l0 -110 328 -1 c180 -1 330 -1 335 0 11 2 9 -5 -37 -112
@@ -97,7 +97,7 @@ fill="#000000" stroke="none">
 </g>
   </g>
   <!-- 8 -->
-  <g transform="translate(968.4,5.0) scale(1.0326)">
+  <g transform="translate(800,0) scale(1.000000,1.086957)">
     <g transform="translate(0.000000,184.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M451 1778 c-78 -12 -173 -61 -229 -118 -161 -163 -183 -464 -48 -648
@@ -112,7 +112,7 @@ l43 -58 -32 -37 c-42 -48 -89 -144 -111 -227 -24 -89 -24 -282 0 -365 48 -164
 </g>
   </g>
   <!-- 9 -->
-  <g transform="translate(1088.9,5.0) scale(1.0326)">
+  <g transform="translate(900,0) scale(1.010101,1.086957)">
     <g transform="translate(0.000000,184.000000) scale(0.100000,-0.100000)"
 fill="#000000" stroke="none">
 <path d="M440 1779 c-30 -5 -92 -27 -137 -49 -171 -84 -252 -238 -253 -477 0
