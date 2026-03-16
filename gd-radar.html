@@ -1,123 +1,377 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <title>Guangdong Radar</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <style type="text/css">
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    h1 {
-      position: absolute; top: 10px; display: block; width: 100vw; 
-      text-align: center; color: #ccccccaa; text-shadow: 0px 0px 20px #fff;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>广东气象雷达</title>
+  <style>
+    :root {
+      --glass-bg: rgba(20, 20, 30, 0.85); /* 稍微加深一点背景，因为现在内容都在下面 */
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --accent-color: #007aff;
+      --text-main: #ffffff;
+      --text-sub: #a0a0b0;
     }
-    body { width: 100vw; height: calc(var(--vh, 1vh) * 100); }
-    #map { width: 100vw; height: calc(var(--vh, 1vh) * 100); }
-    #error {
-      z-index: -1; position: absolute; top: calc(50vh - 30px); left: calc(50vw - 150px);
-      display: flex; justify-content: center; align-items: center;
-      width: 300px; height: 60px; border-radius: 8px; opacity: 0;
-      font-size: 16px; font-weight: bold; color: #222; background: #fff; transition: 0.4s ease-in-out;
+
+    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+    
+    body {
+      width: 100vw; height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      overflow: hidden;
+      background: #111;
     }
-    #info {
-      position: absolute; bottom: 80px; left: calc(50vw - 84px);
-      display: flex; justify-content: center; width: 168px;
-      font-size: 16px; font-weight: bold; color: #ccccccaa; text-shadow: 0px 0px 20px #fff;
+
+    /* 地图层 */
+    #map { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; }
+
+    /* UI 层容器 */
+    #ui-layer {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 10; pointer-events: none; 
+      display: flex; flex-direction: column; justify-content: flex-end; /* 内容对齐到底部 */
+      padding: 20px;
     }
-    button {
-      position: absolute; bottom: 20px; width: 64px; height: 64px; 
-      font-size: 48px; background: transparent; border: 0; opacity: 0.6;
+
+    /* 通用毛玻璃卡片 */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 20px;
+      pointer-events: auto;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
+
+    /* 底部控制栏容器 */
     footer {
-      position: absolute; bottom: 0; left: calc(50vw - 84px);
-      display: flex; justify-content: center; width: 168px;
-      font-size: 10px; color: #ccccccaa; text-shadow: 0px 0px 20px #fff;
+      width: 100%;
+      max-width: 420px; /* 稍微加宽一点 */
+      align-self: center;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    /* 新增：标题和时间行 */
+    .info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+    }
+
+    #timestamp {
+      font-family: "SF Mono", "Roboto Mono", monospace;
+      font-size: 15px;
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    /* 按钮控制区 */
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    button {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    button:active { transform: scale(0.92); background: rgba(255, 255, 255, 0.2); }
+    button svg { width: 20px; height: 20px; fill: currentColor; }
+
+    button#play-btn {
+      width: 56px; height: 56px;
+      background: var(--accent-color);
+      box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
+    }
+    button#play-btn svg { width: 24px; height: 24px; }
+
+    /* 进度指示条 */
+    .timeline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5px;
+    }
+    .dot {
+      width: 4px; height: 4px; /* 稍微调小一点 */
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+    .dot.active {
+      background: var(--accent-color);
+      transform: scale(1.8); /* 激活时放大明显一点 */
+      box-shadow: 0 0 8px var(--accent-color);
+    }
+
+    /* 加载与错误提示 */
+    #status-msg {
+      position: absolute; top: 40%; left: 50%; /* 稍微靠上一点，避开底部UI */
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: var(--accent-color);
+      animation: spin 1s ease-in-out infinite;
+      position: absolute; top: 40%; left: 50%; margin-top: -20px; margin-left: -20px;
+      z-index: 5;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .copyright {
+      text-align: center;
+      font-size: 10px;
+      color: var(--text-sub);
+      margin-top: -5px;
     }
   </style>
+  
   <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=3IHBZ-7UIEG-HU4QU-IR6MZ-R7KR5-EVF2E"></script>
-  <script>
-    let currentPic = 16
-    let interval = null
-    var imgArray = []
-    window.onload = () => {
-      (() => {
-        // 设置图片部分
-        const jsNode = document.createElement('script');
-        jsNode.setAttribute('type', 'text/javascript');
-        jsNode.setAttribute('src', `https://weather.121.com.cn/data_cache/contour/radar/radarContour.js?random=${Math.random()}&_=${new Date().valueOf()}`);
-        document.getElementsByTagName('body')[0].appendChild(jsNode);
-        jsNode.onload = () => {
-          imgArray = SZ121_RadarContour.imgs.map(src => {
-            const [_, timestamp, latest] = src.split(/\/cappi\/.*\/.*\/20|\.png\?r=/)
-            return { src, timestamp, latest }
-          })
-          currentPic = imgArray[0]?.latest
-          setPic()
-        }
-        jsNode.onerror = () => {
-          document.getElementById('error').style.zIndex = '10'
-          document.getElementById('error').style.opacity = '0.6'
-          setTimeout(() => {
-            document.getElementById('error').style.zIndex = '-1'
-            document.getElementById('error').style.opacity = '0'
-          }, 3000);
-        }
-        function setPic() {
-          const { src, timestamp } = imgArray.find(v => v.timestamp === currentPic)
-          groundOverlay.setOptions({
-            imageUrl: `http://weather.121.com.cn/data_cache/${src}`,
-          })
-          document.getElementById('info').innerText = `${timestamp.substr(0, 2)}/${timestamp.substr(2, 2)}/${timestamp.substr(4, 2)} ${timestamp.substr(6, 2)}:${timestamp.substr(8, 2)}`
-        }
-        // 初始化地图部分
-        const map = new qq.maps.Map(document.getElementById("map"), {
-          center: new qq.maps.LatLng(23, 113.5),
-          zoom: 8,
-          mapTypeControl: false,
-          backgroundColor: '#222',
-          mapStyleId: 'style1'
-        })
-        const groundOverlay = new qq.maps.GroundOverlay
-        groundOverlay.setBounds(new qq.maps.LatLngBounds(new qq.maps.LatLng(19.0149, 108.505), new qq.maps.LatLng(26.0419, 117.505)))
-        groundOverlay.setVisible(true)
-        groundOverlay.setOptions({ map, opacity: 0.4, clickable: false })
-        // 按钮事件部分
-        window.prev = () => {
-          const currentIndex = imgArray.findIndex(v => v.timestamp === currentPic)
-          currentPic = currentIndex === 0 ? imgArray[9].timestamp : imgArray[currentIndex - 1].timestamp
-          setPic()
-        }
-        window.next = () => {
-          const currentIndex = imgArray.findIndex(v => v.timestamp === currentPic)
-          currentPic = currentIndex === 9 ? imgArray[0].timestamp : imgArray[currentIndex + 1].timestamp
-          setPic()
-        }
-        window.play = () => {
-          if (!interval) {
-            document.getElementById('play').innerText = '⏸️'
-            interval = setInterval(next, 1500)
-          } else {
-            document.getElementById('play').innerText = '▶️'
-            clearInterval(interval)
-            interval = null
-          }
-        }
-      })()
-    }
-  </script>
 </head>
 <body>
+
   <div id="map"></div>
-  <h1>Guangdong Radar</h1>
-  <div id="error">加载气象台数据失败，请刷新重试</div>
-  <p id="info"></p>
-  <button onclick="prev()" style="left: 20%;">⏪</button>
-  <button id="play" onclick="play()" style="left: calc(50% - 32px);">▶️</button>
-  <button onclick="next()" style="right: 20%;">⏩</button>
-  <footer>Source: SZMB © 2021 Aleko</footer>
+
+  <div id="ui-layer">
+    
+    <div id="spinner" class="spinner"></div>
+    <div id="status-msg">数据加载失败，请刷新</div>
+
+    <footer class="glass-panel">
+      <div class="info-header">
+          <h1>广东气象雷达</h1>
+          <div id="timestamp">加载中...</div>
+      </div>
+
+      <div class="timeline" id="timeline"></div>
+
+      <div class="controls">
+        <button onclick="prev()">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        
+        <button id="play-btn" onclick="togglePlay()">
+          <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="icon-pause" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        
+        <button onclick="next()">
+          <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+      </div>
+      
+      <div class="copyright">Source: SZMB / Data: 121.com.cn</div>
+    </footer>
+  </div>
+
   <script>
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    let currentPic = '';
+    let interval = null;
+    let imgArray = [];
+    let map, groundOverlay;
+    
+    // 初始化 Timeline UI
+    function initTimeline() {
+      const timeline = document.getElementById('timeline');
+      timeline.innerHTML = '';
+      for(let i=0; i<10; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        timeline.appendChild(dot);
+      }
+    }
+
+    // 更新 Timeline 状态
+    function updateTimeline(index) {
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        if (i === index) dot.classList.add('active');
+        else dot.classList.remove('active');
+      });
+    }
+
+    window.onload = () => {
+      initTimeline();
+
+      // 1. 初始化地图
+      map = new qq.maps.Map(document.getElementById("map"), {
+        center: new qq.maps.LatLng(23.1, 113.3), // 广州中心
+        zoom: 8,
+        mapTypeControl: false,
+        zoomControl: false,
+        scaleControl: false,
+        panControl: false,
+        mapStyleId: 'style1'
+      });
+
+      groundOverlay = new qq.maps.GroundOverlay();
+      groundOverlay.setBounds(new qq.maps.LatLngBounds(
+        new qq.maps.LatLng(19.0149, 108.505), 
+        new qq.maps.LatLng(26.0419, 117.505)
+      ));
+      groundOverlay.setOptions({ map, opacity: 0.7, clickable: false }); 
+
+      // 2. 加载数据
+      const jsNode = document.createElement('script');
+      jsNode.src = `https://weather.121.com.cn/data_cache/contour/radar/radarContour.js?random=${Math.random()}`;
+      document.body.appendChild(jsNode);
+
+      jsNode.onload = () => {
+        if (typeof SZ121_RadarContour === 'undefined') {
+          showError(); 
+          return;
+        }
+
+        // 解析数据源
+        imgArray = SZ121_RadarContour.imgs.map(src => {
+          const match = src.match(/(\d{12})/); 
+          const [_, timestamp, latest] = src.split(/\/cappi\/.*\/.*\/20|\.png\?r=/);
+          const finalTs = match ? match[1] : (timestamp || latest);
+          return { src, timestamp: finalTs };
+        });
+
+        // --- 核心修改：反转数组 ---
+        // API 默认返回 [最新 ... 最旧]，我们反转为 [最旧 ... 最新]
+        // 这样 Index 0 就是最旧的，Index 9 是最新的，符合直觉
+        // imgArray.reverse();
+        console.log(imgArray)
+
+        // 默认显示最新的一张（现在是数组最后一个）
+        currentPic = imgArray[imgArray.length - 1].timestamp; 
+        document.getElementById('spinner').style.display = 'none';
+        
+        renderFrame();
+      };
+
+      jsNode.onerror = showError;
+    };
+
+    function showError() {
+      document.getElementById('spinner').style.display = 'none';
+      const msg = document.getElementById('status-msg');
+      msg.style.opacity = '1';
+      msg.innerText = "数据源连接失败";
+    }
+
+    // 渲染当前帧
+    function renderFrame() {
+      const index = imgArray.findIndex(v => v.timestamp === currentPic);
+      if (index === -1) return;
+
+      const item = imgArray[index];
+      
+      // 更新地图图片
+      groundOverlay.setOptions({
+        imageUrl: `http://weather.121.com.cn/data_cache/${item.src}`
+      });
+      groundOverlay.setVisible(true);
+
+      // 更新时间文字
+      const ts = item.timestamp;
+      const year = ts.substr(0, 4);
+      const month = ts.substr(4, 2);
+      const day = ts.substr(6, 2);
+      const hour = ts.substr(8, 2);
+      const min = ts.substr(10, 2);
+      document.getElementById('timestamp').innerText = `${month}/${day} ${hour}:${min}`;
+
+      // 更新进度条 
+      // 因为数组已经反转为 [旧->新]，所以直接用 index 即可，无需计算 visualIndex
+      updateTimeline(index);
+    }
+
+    // --- 控制逻辑 (已适配反转后的数组) ---
+
+    window.prev = () => {
+      // 往过去翻 (索引减小)
+      const currentIndex = imgArray.findIndex(v => v.timestamp === currentPic);
+      // 如果当前是第0张(最旧)，则循环到最后一张(最新)，或者停在0
+      // 这里设置为循环：
+      const nextIndex = currentIndex <= 0 ? imgArray.length - 1 : currentIndex - 1;
+      currentPic = imgArray[nextIndex].timestamp;
+      renderFrame();
+    };
+
+    window.next = () => {
+      // 往未来翻 (索引增大)
+      const currentIndex = imgArray.findIndex(v => v.timestamp === currentPic);
+      // 如果当前是最后一张(最新)，循环到第0张
+      const nextIndex = currentIndex >= imgArray.length - 1 ? 0 : currentIndex + 1;
+      currentPic = imgArray[nextIndex].timestamp;
+      renderFrame();
+    };
+
+    window.togglePlay = () => {
+      const playIcon = document.getElementById('icon-play');
+      const pauseIcon = document.getElementById('icon-pause');
+
+      if (!interval) {
+        // 开始播放
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        
+        // 如果当前已经是最新的一帧，点击播放时从头开始
+        const currentIndex = imgArray.findIndex(v => v.timestamp === currentPic);
+        if (currentIndex === imgArray.length - 1) {
+            currentPic = imgArray[0].timestamp; 
+            renderFrame();
+        }
+
+        interval = setInterval(() => {
+           const idx = imgArray.findIndex(v => v.timestamp === currentPic);
+           // 播放逻辑：往后走(最新)
+           if (idx >= imgArray.length - 1) {
+             // 播完了，回到开头循环
+             currentPic = imgArray[0].timestamp;
+           } else {
+             currentPic = imgArray[idx + 1].timestamp;
+           }
+           renderFrame();
+        }, 800); 
+      } else {
+        // 暂停
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        clearInterval(interval);
+        interval = null;
+      }
+    };
   </script>
 </body>
 </html>
